@@ -4,32 +4,35 @@
 #include <shellapi.h>
 #include <iostream>
 #include "resource.h"
+#include "texture_manager.hpp"
 
 /* Notes */
 // Name: RemindMe!
 // - Reminder Sounds
 //      - Roblox Badge, You got mail
 
-
-
-
-#define TRAY_ICON_ID (WM_USER + 2)
-#define WM_MESSAGE (WM_USER + 1)
-
-sf::RenderWindow window(sf::VideoMode(850, 478), L"Hunter's_Reminder_Program");
-
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
+void loadTextures(TextureManager& txtManager);
+
+
+sf::RenderWindow window(sf::VideoMode(768, 432), L"Hunter's_Reminder_Program");
+
+
+
 
 LPCWSTR lpszClass = L"__hidden__";
 
 int main()
 {
-    HINSTANCE hInstance = GetModuleHandle(nullptr);
+    TextureManager txtManager;
+    loadTextures(txtManager);
 
+    HINSTANCE hInstance = GetModuleHandle(nullptr);
     WNDCLASS wc;
     HWND hWnd;
     MSG msg;
-    bool minimized = 0;
+    
+  //  bool minimized = 0;
 
     wc.cbClsExtra = 0;
     wc.cbWndExtra = 0;
@@ -46,15 +49,14 @@ int main()
     hWnd = CreateWindowEx( 0, lpszClass, L" ", 0, 0, 0, 0, 0, HWND_MESSAGE, NULL, NULL, NULL );
     ShowWindow(hWnd, SW_HIDE);
 
-    sf::RectangleShape background;
-    background.setSize({ (float)window.getSize().x, (float)window.getSize().y });
-
+    sf::Sprite background;
 
     while (window.isOpen())
     {
+        background.setTexture(txtManager.getRef("mainMenu"));
         
         if (IsIconic(window.getSystemHandle())) {
-            minimized = 1;
+           // minimized = 1;
             while (GetMessage(&msg, nullptr, 0, 0)) {
                 TranslateMessage(&msg);
                 DispatchMessage(&msg);
@@ -73,16 +75,18 @@ int main()
 
 
         }
-
+        window.clear();m
+        window.draw(background);
+        window.display();
     }
 
         
-        window.clear();
-        window.draw(background);
-        window.display();
+        
     
     return static_cast<int>(msg.wParam);
 }
+
+
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 {
@@ -121,7 +125,11 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 }
 
 
+void loadTextures(TextureManager &txtManager) {
 
+    txtManager.loadTexture("mainMenu", "media/textures/RemindMe_MainMenu.png");
+    std::cout << "Hello";
+}
 
 /*
 

@@ -17,4 +17,9 @@ public:
 
 	TextureManager();
 
+
+
+	class texture_manager
+	{
+	};
 };
