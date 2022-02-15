@@ -5,11 +5,46 @@
 #include <iostream>
 #include "resource.h"
 #include "texture_manager.hpp"
+#include "resourceManager.hpp"
 
 /* Notes */
 // Name: RemindMe!
 // - Reminder Sounds
 //      - Roblox Badge, You got mail
+
+
+/* Dimensions Relate to Screen Size */
+/*
+    Main Menu:
+        - Button One Size
+            - X: 
+            - Y:
+        - Button One Pos:
+            - X: 
+            - Y:
+        - Button Two Size
+            - X:
+            - Y:
+        - Button Two Pos:
+            - X:
+            - Y:
+        - Button Three Size
+            - X:
+            - Y:
+        - Button Three Pos:
+            - X:
+            - Y:
+        - Button Four Pos:
+            - X:
+            - Y:
+        - Button Four Pos:
+            - X:
+            - Y:
+
+
+
+*/
+
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 void loadTextures(TextureManager& txtManager);
@@ -25,14 +60,17 @@ LPCWSTR lpszClass = L"__hidden__";
 int main()
 {
     TextureManager txtManager;
-    loadTextures(txtManager);
-
+    sf::Sprite background;
     HINSTANCE hInstance = GetModuleHandle(nullptr);
     WNDCLASS wc;
     HWND hWnd;
     MSG msg;
-    
-  //  bool minimized = 0;
+
+
+    loadTextures(txtManager);
+
+
+    /* Dummy Window & Icon Setup*/
 
     wc.cbClsExtra = 0;
     wc.cbWndExtra = 0;
@@ -45,24 +83,32 @@ int main()
     wc.lpszMenuName = nullptr;
     wc.style = 0;
     RegisterClass(&wc);
-
-    hWnd = CreateWindowEx( 0, lpszClass, L" ", 0, 0, 0, 0, 0, HWND_MESSAGE, NULL, NULL, NULL );
+    hWnd = CreateWindowEx(0, lpszClass, L" ", 0, 0, 0, 0, 0, HWND_MESSAGE, NULL, NULL, NULL);
     ShowWindow(hWnd, SW_HIDE);
 
-    sf::Sprite background;
+    /*---------------------------*/
 
     while (window.isOpen())
     {
         background.setTexture(txtManager.getRef("mainMenu"));
         
-        if (IsIconic(window.getSystemHandle())) {
-           // minimized = 1;
-            while (GetMessage(&msg, nullptr, 0, 0)) {
-                TranslateMessage(&msg);
-                DispatchMessage(&msg);
+        while (IsIconic(window.getSystemHandle())) { // If window is minimzed wait for icon input
+            if (MsgWaitForMultipleObjects(0, NULL, FALSE, 5000, QS_ALLINPUT) == WAIT_OBJECT_0)
+            {
+                while (PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
+                {
+                    DispatchMessage(&msg);
+                    std::cout << "why am i here";
+                }
             }
+           // if (GetMessage(&msg, nullptr, 0, 0)) {
+             //   TranslateMessage(&msg);
+             //   DispatchMessage(&msg);
+                
+          //  }
+            std::cout << "Message Worked";
         }
-   
+
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -75,7 +121,7 @@ int main()
 
 
         }
-        window.clear();m
+        window.clear();
         window.draw(background);
         window.display();
     }
