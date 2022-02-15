@@ -1,8 +1,8 @@
 #include <SFML/Graphics.hpp>
-
 #include <windows.h>
 #include <shellapi.h>
 #include <iostream>
+#include <stack>
 #include "resource.h"
 #include "texture_manager.hpp"
 #include "resourceManager.hpp"
@@ -14,7 +14,7 @@
 //      - Roblox Badge, You got mail
 // 400% Increase Size
 
-/* Dimensions Relate to Screen Size */
+/* Dimensions Relative to Screen Size */
 /*
     Main Menu:
         - Button One Size
@@ -41,9 +41,6 @@
         - Button Four Pos:
             - X: 0.104166
             - Y: 0.74074
-
-
-
 */
 
 
@@ -51,11 +48,7 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 void loadTextures(TextureManager&);
 void loadAssets(ResourceManager<Button>&, TextureManager&);
 
-
 sf::RenderWindow window(sf::VideoMode(768, 432), L"Hunter's_Reminder_Program");
-
-
-
 
 LPCWSTR lpszClass = L"__hidden__";
 
@@ -64,14 +57,11 @@ int main()
     TextureManager txtManager;
     ResourceManager<Button> butManager;
     sf::Sprite background;
+    std::stack<int> stateStack;
     HINSTANCE hInstance = GetModuleHandle(nullptr);
     WNDCLASS wc;
     HWND hWnd;
     MSG msg;
-
-
-    loadTextures(txtManager);
-    loadAssets(butManager, txtManager);
 
 
     /* Dummy Window & Icon Setup*/
@@ -92,6 +82,10 @@ int main()
 
     /*---------------------------*/
 
+    loadTextures(txtManager);
+    loadAssets(butManager, txtManager);
+    stateStack.push(1); // Make the default state the main menu
+
     while (window.isOpen())
     {
         background.setTexture(txtManager.getRef("mainMenu"));
@@ -102,15 +96,9 @@ int main()
                 while (PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
                 {
                     DispatchMessage(&msg);
-                    std::cout << "why am i here";
                 }
             }
-           // if (GetMessage(&msg, nullptr, 0, 0)) {
-             //   TranslateMessage(&msg);
-             //   DispatchMessage(&msg);
-                
-          //  }
-            std::cout << "Message Worked";
+        
         }
 
         sf::Event event;
@@ -122,22 +110,45 @@ int main()
           if (event.type == sf::Event::Resized) {
 
            }
+          if (event.type == sf::Event::MouseButtonPressed) {
 
+              if (event.mouseButton.button == sf::Mouse::Left) {
 
+                  switch(stateStack.top()) // Psuedo State Machine
+                      case 1: {
+                            if (butManager.getRef("newTaskButton").isHovered(window)) {
+                            stateStack.push(2);
+                            }
+                            if (butManager.getRef("currentTaskButton").isHovered(window)) {
+                                stateStack.push(3);
+                            }
+                            if (butManager.getRef("completedTaskButton").isHovered(window)) {
+                                stateStack.push(4);
+                            }
+                            if (butManager.getRef("exitMainMenuButton").isHovered(window)) {
+                                window.close();
+                            }
+                      }
+                  
+              }
+          }
         }
+
+
+
         window.clear();
         window.draw(background);
-        butManager.getRef("newTaskButton").drawTo(window);
-        butManager.getRef("currentTaskButton").drawTo(window);
-        butManager.getRef("completedTaskButton").drawTo(window);
-        butManager.getRef("exitMainMenuButton").drawTo(window);
+        if (stateStack.top() == 1) { // If Main Menu state, draw these elements
+            butManager.getRef("newTaskButton").drawTo(window);
+            butManager.getRef("currentTaskButton").drawTo(window);
+            butManager.getRef("completedTaskButton").drawTo(window);
+            butManager.getRef("exitMainMenuButton").drawTo(window);
+        }
         window.display();
     }
 
-        
-        
-    
-    return static_cast<int>(msg.wParam);
+   // return static_cast<int>(msg.wParam);
+    return 0;
 }
 
 

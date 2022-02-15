@@ -59,12 +59,12 @@ bool Button::isHovered(sf::RenderWindow& window) {
 	float mouseY = sf::Mouse::getPosition(window).y;
 
 	// Gets button's left & bottom edges
-	xPos = button.getPosition().x - button.getLocalBounds().width / 2;
-	yPos = button.getPosition().y - button.getLocalBounds().height / 2;
+	xPos = button.getPosition().x;
+	yPos = button.getPosition().y;
 
 	// Gets button's right & top edges
-	float buttonPosWidth = button.getPosition().x + button.getLocalBounds().width / 2;
-	float buttonPosHeight = button.getPosition().y + button.getLocalBounds().height / 2;
+	float buttonPosWidth = button.getPosition().x + button.getLocalBounds().width;
+	float buttonPosHeight = button.getPosition().y + button.getLocalBounds().height;
 
 	if (mouseX < buttonPosWidth && mouseX > xPos && mouseY < buttonPosHeight && mouseY > yPos) {
 		return true;
