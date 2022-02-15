@@ -184,6 +184,7 @@
     <ClCompile Include="task.cpp" />
     <ClCompile Include="task_manager.cpp" />
     <ClCompile Include="texture_manager.cpp" />
+    <ClCompile Include="universalClass.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ResourceCompile Include="iconResource.rc" />
@@ -198,6 +199,7 @@
     <ClInclude Include="task.hpp" />
     <ClInclude Include="task_manager.h" />
     <ClInclude Include="texture_manager.hpp" />
+    <ClInclude Include="universalClass.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
