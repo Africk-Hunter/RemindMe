@@ -6,40 +6,41 @@
 #include "resource.h"
 #include "texture_manager.hpp"
 #include "resourceManager.hpp"
+#include "Button.hpp"
 
 /* Notes */
 // Name: RemindMe!
 // - Reminder Sounds
 //      - Roblox Badge, You got mail
-
+// 400% Increase Size
 
 /* Dimensions Relate to Screen Size */
 /*
     Main Menu:
         - Button One Size
-            - X: 
-            - Y:
+            - X: 0.4322
+            - Y: 0.07407
         - Button One Pos:
-            - X: 
-            - Y:
+            - X: 0.104166
+            - Y: 0.3796
         - Button Two Size
-            - X:
-            - Y:
+            - X: 0.5364
+            - Y: 0.07407
         - Button Two Pos:
-            - X:
-            - Y:
+            - X: 0.104166
+            - Y: .5
         - Button Three Size
-            - X:
-            - Y:
+            - X: 0.5885416
+            - Y: 0.07407
         - Button Three Pos:
-            - X:
-            - Y:
+            - X: 0.104166
+            - Y: 0.62037
+        - Button Four Size:
+            - X: 0.14583
+            - Y: 0.07407
         - Button Four Pos:
-            - X:
-            - Y:
-        - Button Four Pos:
-            - X:
-            - Y:
+            - X: 0.104166
+            - Y: 0.74074
 
 
 
@@ -47,7 +48,8 @@
 
 
 LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
-void loadTextures(TextureManager& txtManager);
+void loadTextures(TextureManager&);
+void loadAssets(ResourceManager<Button>&, TextureManager&);
 
 
 sf::RenderWindow window(sf::VideoMode(768, 432), L"Hunter's_Reminder_Program");
@@ -60,6 +62,7 @@ LPCWSTR lpszClass = L"__hidden__";
 int main()
 {
     TextureManager txtManager;
+    ResourceManager<Button> butManager;
     sf::Sprite background;
     HINSTANCE hInstance = GetModuleHandle(nullptr);
     WNDCLASS wc;
@@ -68,6 +71,7 @@ int main()
 
 
     loadTextures(txtManager);
+    loadAssets(butManager, txtManager);
 
 
     /* Dummy Window & Icon Setup*/
@@ -123,6 +127,10 @@ int main()
         }
         window.clear();
         window.draw(background);
+        butManager.getRef("newTaskButton").drawTo(window);
+        butManager.getRef("currentTaskButton").drawTo(window);
+        butManager.getRef("completedTaskButton").drawTo(window);
+        butManager.getRef("exitMainMenuButton").drawTo(window);
         window.display();
     }
 
@@ -174,7 +182,33 @@ LRESULT CALLBACK WndProc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam)
 void loadTextures(TextureManager &txtManager) {
 
     txtManager.loadTexture("mainMenu", "media/textures/RemindMe_MainMenu.png");
-    std::cout << "Hello";
+    txtManager.loadTexture("mainMenu_newTask", "media/textures/mainMenu_newTask.png");
+    txtManager.loadTexture("mainMenu_currentTask", "media/textures/mainMenu_currentTasks.png");
+    txtManager.loadTexture("mainMenu_completedTask", "media/textures/mainMenu_completedtTasks.png");
+    txtManager.loadTexture("mainMenu_exit", "media/textures/mainMenu_Exit.png");
+    
+}
+
+void loadAssets(ResourceManager<Button>& butManager, TextureManager& txtManager) {
+
+    /* Initialize Resources*/
+    Button newTask({ static_cast<float>(window.getView().getSize().x * 0.104166), static_cast<float>(window.getView().getSize().y * 0.3796) }, { static_cast<float>(window.getView().getSize().x * 0.4322), static_cast<float>(window.getView().getSize().y * 0.07407) });
+    Button currentTask({ static_cast<float>(window.getView().getSize().x * 0.104166), static_cast<float>(window.getView().getSize().y * .5) }, { static_cast<float>(window.getView().getSize().x * 0.5364), static_cast<float>(window.getView().getSize().y * 0.07407) });
+    Button completedTask({ static_cast<float>(window.getView().getSize().x * 0.104166), static_cast<float>(window.getView().getSize().y * 0.62037) }, { static_cast<float>(window.getView().getSize().x * 0.5885416), static_cast<float>(window.getView().getSize().y * 0.07407) });
+    Button exitMainMenu({ static_cast<float>(window.getView().getSize().x * 0.104166), static_cast<float>(window.getView().getSize().y * 0.74074) }, { static_cast<float>(window.getView().getSize().x * 0.14583), static_cast<float>(window.getView().getSize().y * 0.07407) });
+
+
+    /* Add resources to their respective resource managers*/
+    butManager.loadResource("newTaskButton", newTask);
+    butManager.loadResource("currentTaskButton", currentTask);
+    butManager.loadResource("completedTaskButton", completedTask);
+    butManager.loadResource("exitMainMenuButton", exitMainMenu);
+
+    /* Assign textures to resources if needed */
+    butManager.getRef("newTaskButton").setTexture(txtManager.getRef("mainMenu_newTask"));
+    butManager.getRef("currentTaskButton").setTexture(txtManager.getRef("mainMenu_currentTask"));
+    butManager.getRef("completedTaskButton").setTexture(txtManager.getRef("mainMenu_completedTask"));
+    butManager.getRef("exitMainMenuButton").setTexture(txtManager.getRef("mainMenu_exit"));
 }
 
 /*
