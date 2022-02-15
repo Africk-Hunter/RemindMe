@@ -13,6 +13,7 @@
 // - Reminder Sounds
 //      - Roblox Badge, You got mail
 // 400% Increase Size
+// Stack of Task objects
 
 /* Dimensions Relative to Screen Size */
 /*
@@ -41,6 +42,12 @@
         - Button Four Pos:
             - X: 0.104166
             - Y: 0.74074
+        - Setting Cog Size:
+            - X: 0.052083
+            - Y: 0.0925925
+        - Setting Cog Pos:
+            - X: 0.9375
+            - Y: 0.8888
 */
 
 
@@ -144,6 +151,7 @@ int main()
             butManager.getRef("completedTaskButton").drawTo(window);
             butManager.getRef("exitMainMenuButton").drawTo(window);
         }
+        butManager.getRef("settingsCogButton").drawTo(window);
         window.display();
     }
 
@@ -197,6 +205,7 @@ void loadTextures(TextureManager &txtManager) {
     txtManager.loadTexture("mainMenu_currentTask", "media/textures/mainMenu_currentTasks.png");
     txtManager.loadTexture("mainMenu_completedTask", "media/textures/mainMenu_completedtTasks.png");
     txtManager.loadTexture("mainMenu_exit", "media/textures/mainMenu_Exit.png");
+    txtManager.loadTexture("settingsCog", "media/textures/settingsCog.png");
     
 }
 
@@ -207,19 +216,21 @@ void loadAssets(ResourceManager<Button>& butManager, TextureManager& txtManager)
     Button currentTask({ static_cast<float>(window.getView().getSize().x * 0.104166), static_cast<float>(window.getView().getSize().y * .5) }, { static_cast<float>(window.getView().getSize().x * 0.5364), static_cast<float>(window.getView().getSize().y * 0.07407) });
     Button completedTask({ static_cast<float>(window.getView().getSize().x * 0.104166), static_cast<float>(window.getView().getSize().y * 0.62037) }, { static_cast<float>(window.getView().getSize().x * 0.5885416), static_cast<float>(window.getView().getSize().y * 0.07407) });
     Button exitMainMenu({ static_cast<float>(window.getView().getSize().x * 0.104166), static_cast<float>(window.getView().getSize().y * 0.74074) }, { static_cast<float>(window.getView().getSize().x * 0.14583), static_cast<float>(window.getView().getSize().y * 0.07407) });
-
+    Button settingsCog({ static_cast<float>(window.getView().getSize().x * 0.9375), static_cast<float>(window.getView().getSize().y * 0.8888) }, { static_cast<float>(window.getView().getSize().x * 0.052083), static_cast<float>(window.getView().getSize().y * 0.0925925) });
 
     /* Add resources to their respective resource managers*/
     butManager.loadResource("newTaskButton", newTask);
     butManager.loadResource("currentTaskButton", currentTask);
     butManager.loadResource("completedTaskButton", completedTask);
     butManager.loadResource("exitMainMenuButton", exitMainMenu);
+    butManager.loadResource("settingsCogButton", settingsCog);
 
     /* Assign textures to resources if needed */
     butManager.getRef("newTaskButton").setTexture(txtManager.getRef("mainMenu_newTask"));
     butManager.getRef("currentTaskButton").setTexture(txtManager.getRef("mainMenu_currentTask"));
     butManager.getRef("completedTaskButton").setTexture(txtManager.getRef("mainMenu_completedTask"));
     butManager.getRef("exitMainMenuButton").setTexture(txtManager.getRef("mainMenu_exit"));
+    butManager.getRef("settingsCogButton").setTexture(txtManager.getRef("settingsCog"));
 }
 
 /*
