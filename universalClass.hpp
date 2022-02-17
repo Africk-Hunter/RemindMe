@@ -4,10 +4,12 @@
 #include <shellapi.h>
 #include <iostream>
 #include <stack>
+#include <queue>
 #include "resource.h"
 #include "texture_manager.hpp"
 #include "resourceManager.hpp"
 #include "Button.hpp"
+#include "task.hpp"
 
 class UniversalClass
 {
@@ -21,6 +23,7 @@ public:
 	ResourceManager<Button> butManager;
 	sf::Sprite background;
 	std::stack<int> stateStack;
+	std::queue<Task> taskQueue;
 	HINSTANCE hInstance = GetModuleHandle(nullptr);
 	WNDCLASS wc;
 	HWND hWnd, m_hwnd;
@@ -37,6 +40,7 @@ public:
 	static LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);
 
 	void mainMenuState();
+	void editTaskState(Task&);
 
 };
 

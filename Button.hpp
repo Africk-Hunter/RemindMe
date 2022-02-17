@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include "Textbox.h"
 
 
 class Button {
@@ -26,6 +27,7 @@ private:
 	sf::RectangleShape button;
 	sf::Texture buttonTexture;
 	sf::Text text;
+	Textbox inputTextbox;
 	int xPos, yPos, xSize, ySize;
 
 

@@ -183,6 +183,7 @@
     <ClCompile Include="sfml_app.cpp" />
     <ClCompile Include="task.cpp" />
     <ClCompile Include="task_manager.cpp" />
+    <ClCompile Include="Textbox.cpp" />
     <ClCompile Include="texture_manager.cpp" />
     <ClCompile Include="universalClass.cpp" />
   </ItemGroup>
@@ -198,6 +199,7 @@
     <ClInclude Include="resource_manager.hpp" />
     <ClInclude Include="task.hpp" />
     <ClInclude Include="task_manager.h" />
+    <ClInclude Include="Textbox.h" />
     <ClInclude Include="texture_manager.hpp" />
     <ClInclude Include="universalClass.hpp" />
   </ItemGroup>

@@ -4,7 +4,7 @@ Button::Button() { }
 
 Button::Button(sf::Vector2f pos, sf::Vector2f size) {
 
-
+	//inputTextbox(16, 80, button.getSize(), false, sf::Color::White);
 	sf::FloatRect textRect = text.getLocalBounds();
 	text.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
 	text.setPosition(sf::Vector2f(pos));
@@ -14,6 +14,12 @@ Button::Button(sf::Vector2f pos, sf::Vector2f size) {
 	button.setSize(size);
 	setSizeX(size.x);
 	setSizeX(size.y);
+
+	inputTextbox.setCharSize(16);
+	inputTextbox.setLimit(80);
+	inputTextbox.setSize(button.getSize());
+	inputTextbox.setIsLimitReached(false);
+	inputTextbox.setPosition(button.getPosition());
 
 	//float xOrg = button.getLocalBounds().width / 2;
 	//float yOrg = button.getLocalBounds().height / 2;
