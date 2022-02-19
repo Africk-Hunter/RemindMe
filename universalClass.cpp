@@ -138,6 +138,10 @@ void UniversalClass::loadTextures() {
 
 void UniversalClass::loadAssets() {
 
+    sf::Font simplePixels;
+    simplePixels.loadFromFile("media/fonts/SimplePixels.ttf");
+    fontManager.loadResource("simplePixels", simplePixels);
+
     /* Initialize Resources*/
     Button newTask({ static_cast<float>(window.getView().getSize().x * 0.104166), static_cast<float>(window.getView().getSize().y * 0.3796) }, { static_cast<float>(window.getView().getSize().x * 0.4322), static_cast<float>(window.getView().getSize().y * 0.07407) });
     Button currentTask({ static_cast<float>(window.getView().getSize().x * 0.104166), static_cast<float>(window.getView().getSize().y * .5) }, { static_cast<float>(window.getView().getSize().x * 0.5364), static_cast<float>(window.getView().getSize().y * 0.07407) });
@@ -147,6 +151,8 @@ void UniversalClass::loadAssets() {
 
     Button testButton({ static_cast<float>(window.getView().getSize().x * 0.9375), static_cast<float>(window.getView().getSize().y * 0.8888) }, { static_cast<float>(window.getView().getSize().x * 0.052083), static_cast<float>(window.getView().getSize().y * 0.0925925) });
 
+    Textbox testText(24, 80, { static_cast<float>(window.getView().getSize().x * 0.5729), static_cast<float>(window.getView().getSize().y * 0.2129) }, { static_cast<float>(window.getView().getSize().x * .5), static_cast<float>(window.getView().getSize().y * .5) }, sf::Color::White, fontManager.getRef("simplePixels"));
+
     /* Add resources to their respective resource managers*/
     butManager.loadResource("newTaskButton", newTask);
     butManager.loadResource("currentTaskButton", currentTask);
@@ -154,19 +160,25 @@ void UniversalClass::loadAssets() {
     butManager.loadResource("exitMainMenuButton", exitMainMenu);
     butManager.loadResource("settingsCogButton", settingsCog);
 
+    textboxManager.loadResource("testText", testText);
+
     /* Assign textures to resources if needed */
     butManager.getRef("newTaskButton").setTexture(txtManager.getRef("mainMenu_newTask"));
     butManager.getRef("currentTaskButton").setTexture(txtManager.getRef("mainMenu_currentTask"));
     butManager.getRef("completedTaskButton").setTexture(txtManager.getRef("mainMenu_completedTask"));
     butManager.getRef("exitMainMenuButton").setTexture(txtManager.getRef("mainMenu_exit"));
     butManager.getRef("settingsCogButton").setTexture(txtManager.getRef("settingsCog"));
+
+    //textboxManager.getRef("testText").setPosition({ static_cast<float>(window.getView().getSize().x * .5), static_cast<float>(window.getView().getSize().y * .5) });
+   // textboxManager.getRef("testText").setFont(fontManager.getRef("simplePixels"));
+   // textboxManager.getRef("testText").textbox.setString("Hello World");
 }
 
 
 void UniversalClass::mainMenuState() {
 
     background.setTexture(txtManager.getRef("mainMenu"));
-
+    
     while (stateStack.top() == 1) {
         sf::Event event;
         while (window.pollEvent(event))
@@ -188,7 +200,8 @@ void UniversalClass::mainMenuState() {
                         editTaskState(newTask);
                     }
                     if (butManager.getRef("currentTaskButton").isHovered(window)) {
-                        stateStack.push(3);
+                        //stateStack.push(3);
+                        textboxManager.getRef("testText").reverseSelectState();
                     }
                     if (butManager.getRef("completedTaskButton").isHovered(window)) {
                         stateStack.push(4);
@@ -198,14 +211,21 @@ void UniversalClass::mainMenuState() {
                     }
                 }
             }
+            if (event.type == sf::Event::TextEntered) {
+                if (textboxManager.getRef("testText").getSelectionState()) {
+                    textboxManager.getRef("testText").verifyValidInput(event);
+                }
+            }
 
             window.clear();
-            window.draw(background);
+           // window.draw(background);
+            
             butManager.getRef("newTaskButton").drawTo(window);
             butManager.getRef("currentTaskButton").drawTo(window);
             butManager.getRef("completedTaskButton").drawTo(window);
             butManager.getRef("exitMainMenuButton").drawTo(window);
             butManager.getRef("settingsCogButton").drawTo(window);
+            textboxManager.getRef("testText").drawTo(window);
             window.display();
         }
     }

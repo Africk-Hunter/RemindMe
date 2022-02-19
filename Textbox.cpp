@@ -1,49 +1,60 @@
-#include "Textbox.h"
+#include "Textbox.hpp"
 #include <sstream>
+
+
 
 Textbox::Textbox() { 
 
-	limit = 0;
+	textbox.setCharacterSize(40);
+	textbox.setFillColor(sf::Color::Black);
+	textString = "";
+	maxChars = 0;
 	lineLimit = 0;
 	charCount = 0;
 	sizeY = 0;
 	sizeX = 0;
-	isLimitReached = false;
+	currentChars = 0;
+	isSelected = false;
 
 }
 
-Textbox::Textbox(int charSize, int charLim, sf::Vector2f nSize, bool limReached, sf::Color textBoxColor) {
+Textbox::Textbox(int charSize, int charLim, sf::Vector2f nSize, sf::Vector2f nPos, sf::Color textBoxColor, sf::Font& nFont) {
 
+	textString = "";
 	textbox.setCharacterSize(charSize);
 	textbox.setFillColor(textBoxColor);
-	isLimitReached = limReached;
-	limit = charLim;
+	setFont(nFont);
 	setSize(nSize);
-	lineLimit = sizeX / charSize;
-	charCount = 0;
+	setPosition(nPos);
+	currentPos = textbox.getGlobalBounds().left;
+	maxChars = charLim;
+	lineLimit = sizeX / charSize; // How many characters can fit on a line
+	charCount = 0; // How many chars on the current line
+	currentChars = 0;
+	isSelected = false;
 
 }
 
-int Textbox::getSizeX() {
+void Textbox::reverseSelectState() {
+	isSelected = !isSelected;
+}
+bool Textbox::getSelectionState() {
+	return isSelected;
+}
+float Textbox::getSizeX() {
 	return sizeX;
 }
-int Textbox::getsizeY() {
+float Textbox::getsizeY() {
 	return sizeY;
 }
-bool Textbox::getIsLimitReached() {
-	return isLimitReached;
-}
-int Textbox::getLimit() {
-	return limit;
+int Textbox::getMaxChars() {
+	return maxChars;
 }
 void Textbox::setCharSize(int nSize) {
 	textbox.setCharacterSize(nSize);
 }
-void Textbox::setIsLimitReached(bool limReached) {
-	isLimitReached = limReached;
-}
-void Textbox::setLimit(int size) {
-	limit = size;
+void Textbox::setMaxChars(int size) {
+	maxChars = size;
 }
 void Textbox::setSize(sf::Vector2f nSize) {
 	sizeX = nSize.x;
@@ -52,84 +63,113 @@ void Textbox::setSize(sf::Vector2f nSize) {
 void Textbox::setFont(sf::Font& font) {
 	textbox.setFont(font);
 }
-void Textbox::drawTo(sf::RenderWindow& window) {
-	window.draw(textbox);
-}
-void Textbox::typedOn(sf::Event input) {
-
-	int charTyped = input.text.unicode;
-	if (charTyped < 128) {
-		if (textStream.str().length() <= limit) {
-			keyboardInput(charTyped);
-		}
-		else if (textStream.str().length() > limit && charTyped == DELETE_KEY) {
-			deleteChar();
-		}
-	}
-}
-void Textbox::keyboardInput(int typedChar) {
-	if (typedChar != DELETE_KEY && typedChar != ENTER_KEY && typedChar != ESCAPE_KEY) {
-
-		if (!wrapText(typedChar)) {
-			textStream << static_cast<char>(typedChar);
-		}
-		charCount++;
-	}
-	else if (typedChar == DELETE_KEY) {
-		if (textStream.str().length() > 0) {
-			deleteChar();
-		}
-	}
-	textbox.setString(textStream.str() + "_");
-}
-
 void Textbox::setPosition(sf::Vector2f pos) {
 	textbox.setPosition(pos);
 }
 
-bool Textbox::wrapText(int typedChar) {
+void Textbox::drawTo(sf::RenderWindow& window) {
+	window.draw(textbox);
+}
+void Textbox::verifyValidInput(sf::Event input) { //Function to verify is input is valid
 
-	int stringLen = textStream.str().length();
-	std::string temp = "";
-	std::string t = textStream.str();
-	std::string lastWord = "";
-	std::string finalString = "";
-	bool spaceOrNot = false;
-	int wordLenTracker = 0;
+	int charTyped = input.text.unicode;
+	if (charTyped < 128) {
+		if (textString.length() <= maxChars) {
+			stringEdit(charTyped);
+		}
+		else if (textString.length() > 0 && charTyped == DELETE_KEY) {
+			deleteChar();
+		}
+	}
+}
+void Textbox::stringEdit(int typedChar) {
 
-	if ((charCount >= lineLimit)) {
-		if (t[stringLen] != 32) {
-			spaceOrNot = true;
-			for (int i = stringLen; t[i] != 32; i--) {
-				temp += t[i];
-				wordLenTracker++;
-			}
-			for (int j = wordLenTracker; j > 0; j--) {
-				if (temp[j] != '\0') {
-					lastWord += temp[j];
-				}
+	if (typedChar != DELETE_KEY && typedChar != ENTER_KEY && typedChar != ESCAPE_KEY) {
 
-			}
-			for (int i = 0; i < (t.length()) - wordLenTracker; i++) {
-				finalString += t[i];
-			}
-			for (int i = 0; i < wordLenTracker; i++) {
-				finalString += " ";
+		if (wrapText(typedChar)) {
+			if (!(typedChar == ' ')) {
+				textString += typedChar;
+				currentChars++;
+				charCount++;
 			}
 		}
-		textStream.str("");
-		textStream << finalString;
-		textStream << "\n";
-		textStream << lastWord;
-		charCount = wordLenTracker;
+		else {
+			textString += typedChar;
+			currentChars++;
+			charCount++;
+		}
 	}
-	return spaceOrNot;
+	else if (typedChar == DELETE_KEY) {
+		if (textString.length() > 0) {
+			deleteChar();
+			std::cout << "Current length: " << currentPos<< std::endl;
+			std::cout << "Max: " << textbox.getGlobalBounds().left + sizeX << std::endl;
+			/*
+			if (currentPos - textbox.getCharacterSize() < textbox.getGlobalBounds().left) {
+				currentPos = textbox.getGlobalBounds().left + sizeX;
+			}
+			else {
+				currentPos -= textbox.getCharacterSize();
+			}
+			*/
+			currentChars--;
+		}
+	}
+	textbox.setString(textString);
+
 }
 
+bool Textbox::wrapText(int typedChar) {
+
+	//if (charCount >= lineLimit) { //If the amount of characters on a line has reached the limit
+	//std::cout << "Current length: " << currentPos + textbox.getCharacterSize() << std::endl;
+//	std::cout << "Max: " << textbox.getGlobalBounds().left + sizeX << std::endl;
+
+	currentPos += textbox.getCharacterSize();
+
+	if ( currentPos >= textbox.getGlobalBounds().left + sizeX || charCount > maxChars ){
+		textString += '\n';
+		charCount = 0;
+		currentPos = textbox.getGlobalBounds().left;
+		return true;
+	}
+	else {
+		return false;
+	}
+
+}
 
 void Textbox::deleteChar() {
+	
+	std::string newString = "";
+	int i = 0;
+
+	std::cout << '\n' << textString[textString.length() - 1] << std::endl;
+
+	if (textString[textString.length() - 2] == '\n') {
+		for (i; i < textString.length() - 2; i++) {	
+			newString += textString[i];
+		}
+		currentPos = textbox.getGlobalBounds().left + sizeX;
+	}
+	else {
+		std::cout << "b4: " << currentPos << std::endl;
+		for (i; i < textString.length() - 1; i++) {
+			
+			
+			newString += textString[i];
+		}
+		currentPos -= textbox.getCharacterSize();
+		std::cout << "after: " << currentPos << std::endl;
+	}
+	textString = newString;
+	
+	/*
+	
+	
 	std::string t = textStream.str();
 	std::string newText = "";
+
 	int i;
 	for (i = 0; i < (t.length() - 1); i++) {
 		newText += t[i];
@@ -143,5 +183,5 @@ void Textbox::deleteChar() {
 	else {
 		charCount -= 1;
 	}
-
+	*/
 }

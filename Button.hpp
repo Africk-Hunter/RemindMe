@@ -1,7 +1,6 @@
 #pragma once
 #include <iostream>
 #include <SFML/Graphics.hpp>
-#include "Textbox.h"
 
 
 class Button {
@@ -16,19 +15,19 @@ public:
 	sf::Vector2f getPosition();
 	void setSizeX(int);
 	void setSizeY(int);
-	int getSizeX();
-	int getSizeY();
+	float getSizeX();
+	float getSizeY();
 	void drawTo(sf::RenderWindow& window);
 	bool isHovered(sf::RenderWindow&);
-
+	//Textbox inputTextbox;
 
 private:
 
 	sf::RectangleShape button;
 	sf::Texture buttonTexture;
 	sf::Text text;
-	Textbox inputTextbox;
-	int xPos, yPos, xSize, ySize;
+	
+	float xPos, yPos, xSize, ySize;
 
 
 

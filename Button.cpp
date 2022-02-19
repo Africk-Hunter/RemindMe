@@ -14,12 +14,20 @@ Button::Button(sf::Vector2f pos, sf::Vector2f size) {
 	button.setSize(size);
 	setSizeX(size.x);
 	setSizeX(size.y);
-
+	/*
 	inputTextbox.setCharSize(16);
 	inputTextbox.setLimit(80);
 	inputTextbox.setSize(button.getSize());
 	inputTextbox.setIsLimitReached(false);
 	inputTextbox.setPosition(button.getPosition());
+	inputTextbox.textbox.setString("HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHello World");
+	inputTextbox.textbox.setPosition(button.getPosition());
+	inputTextbox.keyboardInput('b');
+	*/
+
+
+	//std::cout << inputTextbox.textbox.getString().toAnsiString() << std::endl;
+	//std::cout << inputTextbox.textbox.getPosition().x << " " << inputTextbox.textbox.getPosition().y;
 
 	//float xOrg = button.getLocalBounds().width / 2;
 	//float yOrg = button.getLocalBounds().height / 2;
@@ -28,16 +36,17 @@ Button::Button(sf::Vector2f pos, sf::Vector2f size) {
 
 
 }
+
 void Button::setSizeX(int nSizeX) {
 	xSize = nSizeX;
 }
 void Button::setSizeY(int nSizeY) {
 	ySize = nSizeY;
 }
-int Button::getSizeX() {
+float Button::getSizeX() {
 	return xSize;
 }
-int Button::getSizeY() {
+float Button::getSizeY() {
 	return ySize;
 }
 void Button::setTexture(sf::Texture newText) {
@@ -57,6 +66,7 @@ void Button::setPosition(sf::Vector2f pos) {
 }
 void Button::drawTo(sf::RenderWindow& window) {
 	window.draw(button);
+	//inputTextbox.drawTo(window);
 	window.draw(text);
 }
 bool Button::isHovered(sf::RenderWindow& window) {

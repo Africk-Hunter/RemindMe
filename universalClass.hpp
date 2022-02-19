@@ -10,6 +10,7 @@
 #include "resourceManager.hpp"
 #include "Button.hpp"
 #include "task.hpp"
+#include "Textbox.hpp"
 
 class UniversalClass
 {
@@ -20,7 +21,9 @@ public:
 	LPCWSTR lpszClass = L"__hidden__";
 	
 	TextureManager txtManager;
+	ResourceManager<Textbox> textboxManager;
 	ResourceManager<Button> butManager;
+	ResourceManager<sf::Font> fontManager;
 	sf::Sprite background;
 	std::stack<int> stateStack;
 	std::queue<Task> taskQueue;
