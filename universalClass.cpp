@@ -16,8 +16,6 @@ int UniversalClass::mainLoop() {
             break;
 
         }
-
-
         while (IsIconic(window.getSystemHandle())) { // If window is minimzed wait for icon input
             if (MsgWaitForMultipleObjects(0, NULL, FALSE, 5000, QS_ALLINPUT) == WAIT_OBJECT_0)
             {
@@ -28,8 +26,6 @@ int UniversalClass::mainLoop() {
             }
 
         }
-
-        
 
         window.clear();
         window.draw(background);
@@ -133,6 +129,7 @@ void UniversalClass::loadTextures() {
     txtManager.loadTexture("mainMenu_completedTask", "media/textures/mainMenu_completedtTasks.png");
     txtManager.loadTexture("mainMenu_exit", "media/textures/mainMenu_Exit.png");
     txtManager.loadTexture("settingsCog", "media/textures/settingsCog.png");
+    txtManager.loadTexture("blank_image", "media/textures/blank_image.png");
 
 }
 
@@ -148,10 +145,9 @@ void UniversalClass::loadAssets() {
     Button completedTask({ static_cast<float>(window.getView().getSize().x * 0.104166), static_cast<float>(window.getView().getSize().y * 0.62037) }, { static_cast<float>(window.getView().getSize().x * 0.5885416), static_cast<float>(window.getView().getSize().y * 0.07407) });
     Button exitMainMenu({ static_cast<float>(window.getView().getSize().x * 0.104166), static_cast<float>(window.getView().getSize().y * 0.74074) }, { static_cast<float>(window.getView().getSize().x * 0.14583), static_cast<float>(window.getView().getSize().y * 0.07407) });
     Button settingsCog({ static_cast<float>(window.getView().getSize().x * 0.9375), static_cast<float>(window.getView().getSize().y * 0.8888) }, { static_cast<float>(window.getView().getSize().x * 0.052083), static_cast<float>(window.getView().getSize().y * 0.0925925) });
-
-    Button testButton({ static_cast<float>(window.getView().getSize().x * 0.9375), static_cast<float>(window.getView().getSize().y * 0.8888) }, { static_cast<float>(window.getView().getSize().x * 0.052083), static_cast<float>(window.getView().getSize().y * 0.0925925) });
-
-    Textbox testText(24, 80, { static_cast<float>(window.getView().getSize().x * 0.5729), static_cast<float>(window.getView().getSize().y * 0.2129) }, { static_cast<float>(window.getView().getSize().x * .5), static_cast<float>(window.getView().getSize().y * .5) }, sf::Color::White, fontManager.getRef("simplePixels"));
+    Button taskNameButton({ static_cast<float>(window.getView().getSize().x * 0.09375), static_cast<float>(window.getView().getSize().y * 0.194444) }, { static_cast<float>(window.getView().getSize().x * 0.802083), static_cast<float>(window.getView().getSize().y * 0.11111) });
+    Textbox taskNameText(24, 27, { static_cast<float>(window.getView().getSize().x * 0.59244), static_cast<float>(window.getView().getSize().y * 0.09722) }, { static_cast<float>(window.getView().getSize().x * 0.299479), static_cast<float>(window.getView().getSize().y * 0.226851) }, sf::Color::White, fontManager.getRef("simplePixels"));
+    std::cout << "thing2: " << static_cast<float>(window.getView().getSize().x) << " " << static_cast<float>(window.getView().getSize().y) << std::endl;
 
     /* Add resources to their respective resource managers*/
     butManager.loadResource("newTaskButton", newTask);
@@ -159,8 +155,9 @@ void UniversalClass::loadAssets() {
     butManager.loadResource("completedTaskButton", completedTask);
     butManager.loadResource("exitMainMenuButton", exitMainMenu);
     butManager.loadResource("settingsCogButton", settingsCog);
+    butManager.loadResource("taskNameButton", taskNameButton);
 
-    textboxManager.loadResource("testText", testText);
+    textboxManager.loadResource("taskNameText", taskNameText);
 
     /* Assign textures to resources if needed */
     butManager.getRef("newTaskButton").setTexture(txtManager.getRef("mainMenu_newTask"));
@@ -168,6 +165,7 @@ void UniversalClass::loadAssets() {
     butManager.getRef("completedTaskButton").setTexture(txtManager.getRef("mainMenu_completedTask"));
     butManager.getRef("exitMainMenuButton").setTexture(txtManager.getRef("mainMenu_exit"));
     butManager.getRef("settingsCogButton").setTexture(txtManager.getRef("settingsCog"));
+    butManager.getRef("taskNameButton").setTexture(txtManager.getRef("blank_image"));
 
     //textboxManager.getRef("testText").setPosition({ static_cast<float>(window.getView().getSize().x * .5), static_cast<float>(window.getView().getSize().y * .5) });
    // textboxManager.getRef("testText").setFont(fontManager.getRef("simplePixels"));
@@ -201,7 +199,7 @@ void UniversalClass::mainMenuState() {
                     }
                     if (butManager.getRef("currentTaskButton").isHovered(window)) {
                         //stateStack.push(3);
-                        textboxManager.getRef("testText").reverseSelectState();
+                       
                     }
                     if (butManager.getRef("completedTaskButton").isHovered(window)) {
                         stateStack.push(4);
@@ -211,21 +209,16 @@ void UniversalClass::mainMenuState() {
                     }
                 }
             }
-            if (event.type == sf::Event::TextEntered) {
-                if (textboxManager.getRef("testText").getSelectionState()) {
-                    textboxManager.getRef("testText").verifyValidInput(event);
-                }
-            }
+           
 
             window.clear();
-           // window.draw(background);
+            window.draw(background);
             
             butManager.getRef("newTaskButton").drawTo(window);
             butManager.getRef("currentTaskButton").drawTo(window);
             butManager.getRef("completedTaskButton").drawTo(window);
             butManager.getRef("exitMainMenuButton").drawTo(window);
             butManager.getRef("settingsCogButton").drawTo(window);
-            textboxManager.getRef("testText").drawTo(window);
             window.display();
         }
     }
@@ -248,11 +241,20 @@ void UniversalClass::editTaskState(Task& editTask) {
             if (event.type == sf::Event::MouseButtonPressed) {
 
                 if (event.mouseButton.button == sf::Mouse::Left) {
+                    if (butManager.getRef("taskNameButton").isHovered(window)) {
+                        textboxManager.getRef("taskNameText").reverseSelectState();
+                    }
+                }
+            }
+            if (event.type == sf::Event::TextEntered) {
+                if (textboxManager.getRef("taskNameText").getSelectionState()) {
+                    textboxManager.getRef("taskNameText").verifyValidInput(event);
                 }
             }
 
             window.clear();
             window.draw(background);
+            textboxManager.getRef("taskNameText").drawTo(window);
             window.display();
         }
     }

@@ -14,20 +14,6 @@ Button::Button(sf::Vector2f pos, sf::Vector2f size) {
 	button.setSize(size);
 	setSizeX(size.x);
 	setSizeX(size.y);
-	/*
-	inputTextbox.setCharSize(16);
-	inputTextbox.setLimit(80);
-	inputTextbox.setSize(button.getSize());
-	inputTextbox.setIsLimitReached(false);
-	inputTextbox.setPosition(button.getPosition());
-	inputTextbox.textbox.setString("HelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHelloHello World");
-	inputTextbox.textbox.setPosition(button.getPosition());
-	inputTextbox.keyboardInput('b');
-	*/
-
-
-	//std::cout << inputTextbox.textbox.getString().toAnsiString() << std::endl;
-	//std::cout << inputTextbox.textbox.getPosition().x << " " << inputTextbox.textbox.getPosition().y;
 
 	//float xOrg = button.getLocalBounds().width / 2;
 	//float yOrg = button.getLocalBounds().height / 2;

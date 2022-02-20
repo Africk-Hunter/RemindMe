@@ -26,13 +26,15 @@ Textbox::Textbox(int charSize, int charLim, sf::Vector2f nSize, sf::Vector2f nPo
 	setFont(nFont);
 	setSize(nSize);
 	setPosition(nPos);
-	currentPos = textbox.getGlobalBounds().left;
+	currentPos = boundsBox.getGlobalBounds().left;
+	std::cout << "thing: " << currentPos << std::endl;
+	std::cout << "thinga: " << boundsBox.getGlobalBounds().width << std::endl;
 	maxChars = charLim;
 	lineLimit = sizeX / charSize; // How many characters can fit on a line
 	charCount = 0; // How many chars on the current line
 	currentChars = 0;
 	isSelected = false;
-
+	
 }
 
 void Textbox::reverseSelectState() {
@@ -57,6 +59,9 @@ void Textbox::setMaxChars(int size) {
 	maxChars = size;
 }
 void Textbox::setSize(sf::Vector2f nSize) {
+	boundsBox.setSize(nSize);
+	//std::cout << "bb1 " << boundsBox.getSize().x << "bb2 " << boundsBox.getSize().y << std::endl;
+	//std::cout << "tb1 " << textbox.getGlobalBounds().left << "tb2 " << textbox.getGlobalBounds().width << std::endl;
 	sizeX = nSize.x;
 	sizeY = nSize.y;
 }
@@ -64,6 +69,8 @@ void Textbox::setFont(sf::Font& font) {
 	textbox.setFont(font);
 }
 void Textbox::setPosition(sf::Vector2f pos) {
+	boundsBox.setPosition(pos);
+	//std::cout << "bb1 " << boundsBox.getPosition().x << "bb2 " << boundsBox.getPosition().y << std::endl;
 	textbox.setPosition(pos);
 }
 
@@ -102,16 +109,6 @@ void Textbox::stringEdit(int typedChar) {
 	else if (typedChar == DELETE_KEY) {
 		if (textString.length() > 0) {
 			deleteChar();
-			std::cout << "Current length: " << currentPos<< std::endl;
-			std::cout << "Max: " << textbox.getGlobalBounds().left + sizeX << std::endl;
-			/*
-			if (currentPos - textbox.getCharacterSize() < textbox.getGlobalBounds().left) {
-				currentPos = textbox.getGlobalBounds().left + sizeX;
-			}
-			else {
-				currentPos -= textbox.getCharacterSize();
-			}
-			*/
 			currentChars--;
 		}
 	}
@@ -119,18 +116,16 @@ void Textbox::stringEdit(int typedChar) {
 
 }
 
-bool Textbox::wrapText(int typedChar) {
-
-	//if (charCount >= lineLimit) { //If the amount of characters on a line has reached the limit
-	//std::cout << "Current length: " << currentPos + textbox.getCharacterSize() << std::endl;
-//	std::cout << "Max: " << textbox.getGlobalBounds().left + sizeX << std::endl;
+bool Textbox::wrapText(int typedChar) {	
 
 	currentPos += textbox.getCharacterSize();
-
-	if ( currentPos >= textbox.getGlobalBounds().left + sizeX || charCount > maxChars ){
+	std::cout << "Current length: " << currentPos << std::endl;
+	std::cout << "Max: " << boundsBox.getPosition().x * 2 + boundsBox.getSize().x << std::endl;
+	if ( currentPos > boundsBox.getPosition().x * 2 + boundsBox.getSize().x ){
 		textString += '\n';
 		charCount = 0;
-		currentPos = textbox.getGlobalBounds().left;
+		currentPos = boundsBox.getGlobalBounds().left + textbox.getCharacterSize();
+		//std::cout << "after length: " << currentPos << std::endl;
 		return true;
 	}
 	else {
@@ -150,7 +145,7 @@ void Textbox::deleteChar() {
 		for (i; i < textString.length() - 2; i++) {	
 			newString += textString[i];
 		}
-		currentPos = textbox.getGlobalBounds().left + sizeX;
+		currentPos = boundsBox.getGlobalBounds().left + sizeX;
 	}
 	else {
 		std::cout << "b4: " << currentPos << std::endl;
@@ -163,25 +158,5 @@ void Textbox::deleteChar() {
 		std::cout << "after: " << currentPos << std::endl;
 	}
 	textString = newString;
-	
-	/*
-	
-	
-	std::string t = textStream.str();
-	std::string newText = "";
 
-	int i;
-	for (i = 0; i < (t.length() - 1); i++) {
-		newText += t[i];
-	}
-	textStream.str("");
-	textStream << newText;
-	textbox.setString(textStream.str());
-	if (newText[i - 1] == '\n') {
-		charCount = (lineLimit + 1);
-	}
-	else {
-		charCount -= 1;
-	}
-	*/
 }

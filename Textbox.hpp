@@ -30,10 +30,12 @@ public:
 	void stringEdit(int);
 
 	
-	sf::Text textbox;
+	
 
 private:
-	
+
+	sf::Text textbox;
+	sf::RectangleShape boundsBox;
 	std::string textString;
 	bool isSelected;
 	int maxChars, lineLimit, currentChars;
