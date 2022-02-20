@@ -17,6 +17,7 @@ public:
 	float getsizeY();
 	int getMaxChars();
 	bool getSelectionState();
+	void turnOffSelection();
 
 	void reverseSelectState();
 	void setCharSize(int);

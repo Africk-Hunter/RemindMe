@@ -152,8 +152,8 @@ void UniversalClass::loadAssets() {
 
     Textbox taskNameText(24, 23, { static_cast<float>(window.getView().getSize().x * 0.59244), static_cast<float>(window.getView().getSize().y * 0.09722) }, { static_cast<float>(window.getView().getSize().x * 0.299479), static_cast<float>(window.getView().getSize().y * 0.226851) }, sf::Color::White, fontManager.getRef("simplePixels"));
     Textbox taskNotesText(24, 101, { static_cast<float>(window.getView().getSize().x * 0.578125), static_cast<float>(window.getView().getSize().y * 0.22453) }, { static_cast<float>(window.getView().getSize().x * 0.31380), static_cast<float>(window.getView().getSize().y * 0.34722222) }, sf::Color::White, fontManager.getRef("simplePixels"));
-    Textbox dueDateText(24, 10, { static_cast<float>(window.getView().getSize().x * 0.34375), static_cast<float>(window.getView().getSize().y * 0.0462962) }, { static_cast<float>(window.getView().getSize().x * 0.270833), static_cast<float>(window.getView().getSize().y * 0.6157) }, sf::Color::White, fontManager.getRef("simplePixels"));
-    Textbox timeDueText(24, 7, { static_cast<float>(window.getView().getSize().x * 0.34375), static_cast<float>(window.getView().getSize().y * 0.0462962) }, { static_cast<float>(window.getView().getSize().x * 0.270833), static_cast<float>(window.getView().getSize().y * 0.7037037) }, sf::Color::White, fontManager.getRef("simplePixels"));
+    Textbox dueDateText(24, 101, { static_cast<float>(window.getView().getSize().x * 0.34375), static_cast<float>(window.getView().getSize().y * 0.0462962) }, { static_cast<float>(window.getView().getSize().x * 0.270833), static_cast<float>(window.getView().getSize().y * 0.6157) }, sf::Color::White, fontManager.getRef("simplePixels"));
+    Textbox timeDueText(24, 101, { static_cast<float>(window.getView().getSize().x * 0.34375), static_cast<float>(window.getView().getSize().y * 0.0462962) }, { static_cast<float>(window.getView().getSize().x * 0.270833), static_cast<float>(window.getView().getSize().y * 0.7037037) }, sf::Color::White, fontManager.getRef("simplePixels"));
 
 
 
