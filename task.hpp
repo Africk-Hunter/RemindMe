@@ -1,6 +1,7 @@
 #pragma once
 #include <iostream>
 #include <SFML/Graphics.hpp>
+#include <cereal/archives/json.hpp>
 
 class Task {
 
@@ -20,12 +21,26 @@ public:
 	std::string getTime();
 	int getRepeat();
 
+	template<class Archive>
+	void serialize(Archive& archive)
+	{
+		archive(CEREAL_NVP(taskName), 
+				CEREAL_NVP(taskNotes), 
+				CEREAL_NVP(dayOfWeek), 
+				CEREAL_NVP(dateDay), 
+				CEREAL_NVP(dateMonth), 
+				CEREAL_NVP(dateYear),
+				CEREAL_NVP(timeHours), 
+				CEREAL_NVP(timeMinutes),
+				CEREAL_NVP(repeat)); // serialize things by passing them to the archive
+	}
 
 private:
+	friend class cereal::access;
 
 	std::string taskName, taskNotes, dayOfWeek, dueTime;
 	int dateDay, dateMonth, dateYear, timeHours, timeMinutes;
-	int repeat;
+	int repeat = 5;
 
 };
 

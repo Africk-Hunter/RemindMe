@@ -1,5 +1,5 @@
 #include "universalClass.hpp"
-
+#include <fstream>
 
 
 
@@ -239,6 +239,15 @@ void UniversalClass::mainMenuState() {
 }
 
 void UniversalClass::editTaskState(Task& editTask) {
+
+    std::ofstream jsonFile; // Create the stream
+    
+    jsonFile.open("task.json", std::ofstream::app); // Open the file for appending
+    {
+		cereal::JSONOutputArchive ar(jsonFile);
+		editTask.serialize(ar); // Adding contents to stream / making them suitable for JSON
+    }
+    jsonFile.close(); // Close the stream when done
 
     background.setTexture(txtManager.getRef("newTask"));
 

@@ -3,15 +3,15 @@
 
 Task::Task() {
 
-	taskName = "";
-	taskNotes = ""; 
-	dayOfWeek = "";
-	dateDay = 0;
-	dateMonth = 0;
-	dateYear = 0;
-	timeHours = 0;
-	timeMinutes = 0;
-	repeat = 0;
+	taskName = "a";
+	taskNotes = "b"; 
+	dayOfWeek = "c";
+	dateDay = 1;
+	dateMonth = 2;
+	dateYear = 3;
+	timeHours = 4;
+	timeMinutes = 5;
+	repeat = 6;
 
 }
 
@@ -69,3 +69,4 @@ std::string Task::getTime() {
 int Task::getRepeat() {
 	return repeat;
 }
+
