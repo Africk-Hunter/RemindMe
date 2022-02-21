@@ -45,6 +45,9 @@ void Textbox::turnOffSelection() {
 bool Textbox::getSelectionState() {
 	return isSelected;
 }
+sf::Text Textbox::getTextbox() {
+	return textbox;
+}
 float Textbox::getSizeX() {
 	return sizeX;
 }

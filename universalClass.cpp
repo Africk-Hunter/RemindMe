@@ -149,11 +149,10 @@ void UniversalClass::loadAssets() {
     Button taskNotesButton({ static_cast<float>(window.getView().getSize().x * 0.09375), static_cast<float>(window.getView().getSize().y * 0.33101) }, { static_cast<float>(window.getView().getSize().x * 0.802083), static_cast<float>(window.getView().getSize().y * .25) });
     Button dueDateButton({ static_cast<float>(window.getView().getSize().x * 0.09375), static_cast<float>(window.getView().getSize().y * 0.606481) }, { static_cast<float>(window.getView().getSize().x * 0.52083), static_cast<float>(window.getView().getSize().y * 0.0625) });
     Button timeDueButton({ static_cast<float>(window.getView().getSize().x * 0.09375), static_cast<float>(window.getView().getSize().y * 0.694444) }, { static_cast<float>(window.getView().getSize().x * 0.52083), static_cast<float>(window.getView().getSize().y * 0.0625) });
+    Button saveTaskButton({ static_cast<float>(window.getView().getSize().x * 0.31770833), static_cast<float>(window.getView().getSize().y * 0.787037) }, { static_cast<float>(window.getView().getSize().x * 0.15625), static_cast<float>(window.getView().getSize().y * 0.0555555) });
+    Button discardTaskButt({ static_cast<float>(window.getView().getSize().x * 0.53125), static_cast<float>(window.getView().getSize().y * 0.787037) }, { static_cast<float>(window.getView().getSize().x * 0.15625), static_cast<float>(window.getView().getSize().y * 0.0555555) });
 
-    Textbox taskNameText(24, 23, { static_cast<float>(window.getView().getSize().x * 0.59244), static_cast<float>(window.getView().getSize().y * 0.09722) }, { static_cast<float>(window.getView().getSize().x * 0.299479), static_cast<float>(window.getView().getSize().y * 0.226851) }, sf::Color::White, fontManager.getRef("simplePixels"));
-    Textbox taskNotesText(24, 101, { static_cast<float>(window.getView().getSize().x * 0.578125), static_cast<float>(window.getView().getSize().y * 0.22453) }, { static_cast<float>(window.getView().getSize().x * 0.31380), static_cast<float>(window.getView().getSize().y * 0.34722222) }, sf::Color::White, fontManager.getRef("simplePixels"));
-    Textbox dueDateText(24, 10, { static_cast<float>(window.getView().getSize().x * 0.34375), static_cast<float>(window.getView().getSize().y * 0.0462962) }, { static_cast<float>(window.getView().getSize().x * 0.270833), static_cast<float>(window.getView().getSize().y * 0.6157) }, sf::Color::White, fontManager.getRef("simplePixels"));
-    Textbox timeDueText(24, 7, { static_cast<float>(window.getView().getSize().x * 0.34375), static_cast<float>(window.getView().getSize().y * 0.0462962) }, { static_cast<float>(window.getView().getSize().x * 0.270833), static_cast<float>(window.getView().getSize().y * 0.7037037) }, sf::Color::White, fontManager.getRef("simplePixels"));
+   
 
 
 
@@ -167,11 +166,13 @@ void UniversalClass::loadAssets() {
     butManager.loadResource("taskNotesButton", taskNotesButton);
     butManager.loadResource("dueDateButton", dueDateButton);
     butManager.loadResource("timeDueButton", timeDueButton);
+    butManager.loadResource("saveTaskButton", saveTaskButton);
+    butManager.loadResource("discardTaskButt", discardTaskButt);
 
-    textboxManager.loadResource("taskNameText", taskNameText);
-    textboxManager.loadResource("taskNotesText", taskNotesText);
-    textboxManager.loadResource("dueDateText", dueDateText);
-    textboxManager.loadResource("timeDueText", timeDueText);
+   // textboxManager.loadResource("taskNameText", taskNameText);
+  //  textboxManager.loadResource("taskNotesText", taskNotesText);
+   // textboxManager.loadResource("dueDateText", dueDateText);
+   // textboxManager.loadResource("timeDueText", timeDueText);
 
     /* Assign textures to resources if needed */
     butManager.getRef("newTaskButton").setTexture(txtManager.getRef("mainMenu_newTask"));
@@ -183,15 +184,18 @@ void UniversalClass::loadAssets() {
     butManager.getRef("taskNotesButton").setTexture(txtManager.getRef("blank_image"));
     butManager.getRef("dueDateButton").setTexture(txtManager.getRef("blank_image"));
     butManager.getRef("timeDueButton").setTexture(txtManager.getRef("blank_image"));
+    butManager.getRef("saveTaskButton").setTexture(txtManager.getRef("blank_image"));
+    butManager.getRef("discardTaskButt").setTexture(txtManager.getRef("blank_image"));
 
 }
 
 
 void UniversalClass::mainMenuState() {
 
-    background.setTexture(txtManager.getRef("mainMenu"));
+    
     
     while (stateStack.top() == 1) {
+        background.setTexture(txtManager.getRef("mainMenu"));
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -240,20 +244,16 @@ void UniversalClass::mainMenuState() {
 
 void UniversalClass::editTaskState(Task& editTask) {
 
-    std::ofstream jsonFile; // Create the stream
-    
-    jsonFile.open("task.json", std::ofstream::app); // Open the file for appending
-    {
-		cereal::JSONOutputArchive ar(jsonFile);
-		editTask.serialize(ar); // Adding contents to stream / making them suitable for JSON
-    }
-    jsonFile.close(); // Close the stream when done
+	Textbox taskNameText(24, 23, { static_cast<float>(window.getView().getSize().x * 0.59244), static_cast<float>(window.getView().getSize().y * 0.09722) }, { static_cast<float>(window.getView().getSize().x * 0.315104), static_cast<float>(window.getView().getSize().y * 0.226851) }, sf::Color::White, fontManager.getRef("simplePixels"));
+	Textbox taskNotesText(24, 101, { static_cast<float>(window.getView().getSize().x * 0.578125), static_cast<float>(window.getView().getSize().y * 0.22453) }, { static_cast<float>(window.getView().getSize().x * 0.329425), static_cast<float>(window.getView().getSize().y * 0.34722222) }, sf::Color::White, fontManager.getRef("simplePixels"));
+	Textbox dueDateText(24, 10, { static_cast<float>(window.getView().getSize().x * 0.34375), static_cast<float>(window.getView().getSize().y * 0.0462962) }, { static_cast<float>(window.getView().getSize().x * 0.286458), static_cast<float>(window.getView().getSize().y * 0.6157) }, sf::Color::White, fontManager.getRef("simplePixels"));
+	Textbox timeDueText(24, 7, { static_cast<float>(window.getView().getSize().x * 0.34375), static_cast<float>(window.getView().getSize().y * 0.0462962) }, { static_cast<float>(window.getView().getSize().x * 0.286458), static_cast<float>(window.getView().getSize().y * 0.7037037) }, sf::Color::White, fontManager.getRef("simplePixels"));
 
     background.setTexture(txtManager.getRef("newTask"));
 
     while (stateStack.top() == 2) {
         sf::Event event;
-        while (window.pollEvent(event))
+        while (window.pollEvent(event) && stateStack.top() == 2)
         {
             if (event.type == sf::Event::Closed) {
                 window.close();
@@ -265,52 +265,71 @@ void UniversalClass::editTaskState(Task& editTask) {
 
                 if (event.mouseButton.button == sf::Mouse::Left) {
                     if (butManager.getRef("taskNameButton").isHovered(window)) {
-                        textboxManager.getRef("taskNotesText").turnOffSelection();
-                        textboxManager.getRef("dueDateText").turnOffSelection();
-                        textboxManager.getRef("timeDueText").turnOffSelection();
-                        textboxManager.getRef("taskNameText").reverseSelectState();
+                        timeDueText.turnOffSelection();
+                        taskNotesText.turnOffSelection();
+                        dueDateText.turnOffSelection();
+                        taskNameText.reverseSelectState();
                     }
                     else if (butManager.getRef("taskNotesButton").isHovered(window)) {
-                        textboxManager.getRef("taskNameText").turnOffSelection();
-                        textboxManager.getRef("dueDateText").turnOffSelection();
-                        textboxManager.getRef("timeDueText").turnOffSelection();
-                        textboxManager.getRef("taskNotesText").reverseSelectState(); 
+                        taskNameText.turnOffSelection();
+                        dueDateText.turnOffSelection();
+                        timeDueText.turnOffSelection();
+                        taskNotesText.reverseSelectState();
                     }
                     else if (butManager.getRef("dueDateButton").isHovered(window)) {
-                        textboxManager.getRef("taskNameText").turnOffSelection();
-                        textboxManager.getRef("taskNotesText").turnOffSelection();
-                        textboxManager.getRef("timeDueText").turnOffSelection();
-                        textboxManager.getRef("dueDateText").reverseSelectState();
+                        taskNameText.turnOffSelection();
+                        taskNotesText.turnOffSelection();
+                        timeDueText.turnOffSelection();
+                        dueDateText.reverseSelectState();
                     }
                     else if (butManager.getRef("timeDueButton").isHovered(window)) {
-                        textboxManager.getRef("taskNameText").turnOffSelection();
-                        textboxManager.getRef("taskNotesText").turnOffSelection();
-                        textboxManager.getRef("dueDateText").turnOffSelection();
-                        textboxManager.getRef("timeDueText").reverseSelectState();
+                        taskNameText.turnOffSelection();
+                        taskNotesText.turnOffSelection();
+                        dueDateText.turnOffSelection();
+                        timeDueText.reverseSelectState();
+                    }
+                    else if (butManager.getRef("saveTaskButton").isHovered(window)) {
+                        editTask.saveEnteredData(taskNameText.getTextbox(),
+                                                taskNotesText.getTextbox(),
+                                                dueDateText.getTextbox(),
+                                                timeDueText.getTextbox()); // Saves user entered data to task.
+
+						std::ofstream jsonFile; // Create the stream
+						std::string jsonFileName = editTask.getTaskName();
+						jsonFileName += ".json";
+
+						jsonFile.open(jsonFileName, std::ofstream::out ); // Open the file for appending
+						{
+							cereal::JSONOutputArchive ar(jsonFile);
+							editTask.serialize(ar); // Adding contents to stream / making them suitable for JSON
+						}
+						jsonFile.close(); // Close the stream when done
+
+                        stateStack.pop();
                     }
                 }
             }
             if (event.type == sf::Event::TextEntered) {
-                if (textboxManager.getRef("taskNameText").getSelectionState()) {
-                    textboxManager.getRef("taskNameText").verifyValidInput(event);
+                if (taskNameText.getSelectionState()) {
+                    taskNameText.verifyValidInput(event);
                 }
-                else if (textboxManager.getRef("taskNotesText").getSelectionState()) {
-                    textboxManager.getRef("taskNotesText").verifyValidInput(event);
+                else if (taskNotesText.getSelectionState()) {
+                    taskNotesText.verifyValidInput(event);
                 }
-                else if (textboxManager.getRef("dueDateText").getSelectionState()) {
-                    textboxManager.getRef("dueDateText").verifyValidInput(event);
+                else if (dueDateText.getSelectionState()) {
+                    dueDateText.verifyValidInput(event);
                 }
-                else if (textboxManager.getRef("timeDueText").getSelectionState()) {
-                    textboxManager.getRef("timeDueText").verifyValidInput(event);
+                else if (timeDueText.getSelectionState()) {
+                    timeDueText.verifyValidInput(event);
                 }
             }
 
             window.clear();
             window.draw(background);
-            textboxManager.getRef("taskNameText").drawTo(window);
-            textboxManager.getRef("taskNotesText").drawTo(window);
-            textboxManager.getRef("dueDateText").drawTo(window);
-            textboxManager.getRef("timeDueText").drawTo(window);
+            taskNameText.drawTo(window);
+            taskNotesText.drawTo(window);
+            dueDateText.drawTo(window);
+            timeDueText.drawTo(window);
             window.display();
         }
     }

@@ -17,6 +17,7 @@ public:
 	float getsizeY();
 	int getMaxChars();
 	bool getSelectionState();
+	sf::Text getTextbox();
 	void turnOffSelection();
 
 	void reverseSelectState();

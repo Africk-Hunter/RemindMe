@@ -11,48 +11,46 @@ public:
 
 	void setTaskName(std::string);
 	void setTaskNotes(std::string);
-	void setDayOfWeek(std::string);
-	void setTime(std::string);
+	void setDueTime(std::string, std::string);
 	void setRepeat(int);
 	
 	std::string getTaskName();
 	std::string getTaskNotes();
-	std::string getDayOfWeek();
-	std::string getTime();
+	long int getTime();
 	int getRepeat();
+
+	void saveEnteredData(sf::Text, sf::Text, sf::Text, sf::Text);
 
 	template<class Archive>
 	void serialize(Archive& archive)
 	{
 		archive(CEREAL_NVP(taskName), 
 				CEREAL_NVP(taskNotes), 
-				CEREAL_NVP(dayOfWeek), 
 				CEREAL_NVP(dateDay), 
 				CEREAL_NVP(dateMonth), 
 				CEREAL_NVP(dateYear),
 				CEREAL_NVP(timeHours), 
 				CEREAL_NVP(timeMinutes),
-				CEREAL_NVP(repeat)); // serialize things by passing them to the archive
+				CEREAL_NVP(finalTime),
+				CEREAL_NVP(repeat));
 	}
 
 private:
-	friend class cereal::access;
 
-	std::string taskName, taskNotes, dayOfWeek, dueTime;
-	int dateDay, dateMonth, dateYear, timeHours, timeMinutes;
-	int repeat = 5;
+	friend class cereal::access;
+	struct tm tm;
+
+	//time_t finalTime;
+
+	std::string taskName,
+		taskNotes;
+
+	int dateDay,
+		dateMonth,
+		dateYear,
+		timeHours,
+		timeMinutes,
+		repeat;
+	long int finalTime;
 
 };
-
-
-/*
-
-[ Characteristics of a Task ]
-
-
-
-[ Behaviors of a Task ]
-
-
-
-*/

@@ -1,17 +1,17 @@
 #include "task.hpp"
 #include <iostream>
+#include <time.h>
 
 Task::Task() {
 
-	taskName = "a";
-	taskNotes = "b"; 
-	dayOfWeek = "c";
-	dateDay = 1;
-	dateMonth = 2;
-	dateYear = 3;
-	timeHours = 4;
-	timeMinutes = 5;
-	repeat = 6;
+	taskName = "";
+	taskNotes = ""; 
+	dateDay = 0;
+	dateMonth = 0;
+	dateYear = 0;
+	timeHours = 0;
+	timeMinutes = 0;
+	repeat = 0;
 
 }
 
@@ -21,27 +21,52 @@ void Task::setTaskName(std::string nName) {
 void Task::setTaskNotes(std::string nNotes) {
 	taskNotes = nNotes;
 }
-void Task::setDayOfWeek(std::string nDay) {
-	std::string tempString;
-	dayOfWeek = nDay;
+void Task::setDueTime(std::string nDay, std::string nTime) {
+	std::string dayString, timeString;
+	
+	dayString += nDay[0];
+	dayString += nDay[1];
+	std::cout << dayString << std::endl;
+	dateMonth = std::stoi(dayString);
+	dayString = nDay[3];
+	dayString += nDay[4];
+	dateDay = std::stoi(dayString);
+	dayString = nDay[6];
+	dayString += nDay[7];
+	dayString += nDay[8];
+	dayString += nDay[9];
+	dateYear = std::stoi(dayString);
 
-	tempString = nDay[0] + nDay[1];
-	dateMonth = std::stoi(tempString);
-	tempString = nDay[3] + nDay[4];
-	dateDay = std::stoi(tempString);
-	tempString = nDay[6] + nDay[7] + nDay[8] + nDay[9];
-	dateYear = std::stoi(tempString);
+	if (nTime.length() > 4) {
+		timeString = nTime[0];
+		timeString += nTime[1];
+		timeHours = std::stoi(timeString);
+		timeString = nTime[3];
+		timeString += nTime[4];
+		timeMinutes = std::stoi(timeString);
+	}
+	else {
+		timeString = nTime[0];
+		timeHours = std::stoi(timeString);
+		timeString = nTime[2];
+		timeString += nTime[3];
+		timeMinutes = std::stoi(timeString);
+	}
+	
 
-}
-void Task::setTime(std::string nTime) {
-	std::string tempString;
-	dueTime = nTime;
+	tm.tm_sec = 0;
+	tm.tm_wday = 0;
+	tm.tm_yday = 0;
+	tm.tm_hour = timeHours;
+	tm.tm_min = timeMinutes;
+	tm.tm_year = dateYear - 1900;
+	tm.tm_mon = dateMonth -1;
+	tm.tm_mday = dateDay;
 
-	tempString = nTime[0] + nTime[1];
-	timeHours = std::stoi(tempString);
-	tempString = nTime[3] + nTime[4];
-	timeMinutes = std::stoi(tempString);
 
+	time_t rawtime = mktime(&tm);
+	finalTime = static_cast<long int>(rawtime);
+	
 }
 void Task::setRepeat(int repeatNum) {
 	/*
@@ -53,20 +78,21 @@ void Task::setRepeat(int repeatNum) {
 	*/
 	repeat = repeatNum;
 }
-
 std::string Task::getTaskName() {
 	return taskName;
 }
 std::string Task::getTaskNotes() {
 	return taskNotes;
 }
-std::string Task::getDayOfWeek() {
-	return dayOfWeek;
-}
-std::string Task::getTime() {
-	return dueTime;
+long int Task::getTime() {
+	return finalTime;
 }
 int Task::getRepeat() {
 	return repeat;
 }
 
+void Task::saveEnteredData(sf::Text textTaskName, sf::Text textTaskNotes, sf::Text taskDueDate, sf::Text taskTimeDue) {
+	taskName = textTaskName.getString();
+	taskNotes = textTaskNotes.getString();
+	setDueTime(taskDueDate.getString(), taskTimeDue.getString());
+}
