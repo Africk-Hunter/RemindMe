@@ -1,7 +1,5 @@
 #include "universalClass.hpp"
-#include <fstream>
-
-
+#include <filesystem>
 
 int UniversalClass::mainLoop() {
 
@@ -16,7 +14,7 @@ int UniversalClass::mainLoop() {
             break;
 
         }
-        while (IsIconic(window.getSystemHandle())) { // If window is minimzed wait for icon input
+        while (IsIconic(window.getSystemHandle())) { // If window is minimized wait for icon input
             if (MsgWaitForMultipleObjects(0, NULL, FALSE, 5000, QS_ALLINPUT) == WAIT_OBJECT_0)
             {
                 while (PeekMessage(&msg, 0, 0, 0, PM_REMOVE))
@@ -152,10 +150,6 @@ void UniversalClass::loadAssets() {
     Button saveTaskButton({ static_cast<float>(window.getView().getSize().x * 0.31770833), static_cast<float>(window.getView().getSize().y * 0.787037) }, { static_cast<float>(window.getView().getSize().x * 0.15625), static_cast<float>(window.getView().getSize().y * 0.0555555) });
     Button discardTaskButt({ static_cast<float>(window.getView().getSize().x * 0.53125), static_cast<float>(window.getView().getSize().y * 0.787037) }, { static_cast<float>(window.getView().getSize().x * 0.15625), static_cast<float>(window.getView().getSize().y * 0.0555555) });
 
-   
-
-
-
     /* Add resources to their respective resource managers*/
     butManager.loadResource("newTaskButton", newTask);
     butManager.loadResource("currentTaskButton", currentTask);
@@ -189,10 +183,40 @@ void UniversalClass::loadAssets() {
 
 }
 
+void UniversalClass::deserializeTasks() {
+
+    std::string dirPath = "jsonData/";
+
+	for (auto const& dir_entry : std::filesystem::directory_iterator(dirPath))
+	{
+        Task loadedTask;
+
+        std::string nDirPath;
+        nDirPath = dir_entry.path().string();
+
+		std::ifstream jsonFileReader; // Create the stream
+        //std::stringstream jsonString;
+
+        
+        jsonFileReader.open(nDirPath, std::ofstream::in); 
+		{
+			cereal::JSONInputArchive ar_in(jsonFileReader);
+            //ar_in(loadedTask);
+            loadedTask.serialize(ar_in);
+			//editTask.serialize(ar); // Adding contents to stream / making them suitable for JSON
+		}
+        jsonFileReader.close(); // Close the stream when done
+
+       // taskQueue.push(loadedTask);
+        //std::cout << taskQueue.top().getTaskName();
+       
+	}
+
+}
 
 void UniversalClass::mainMenuState() {
 
-    
+    deserializeTasks();
     
     while (stateStack.top() == 1) {
         
@@ -295,16 +319,17 @@ void UniversalClass::editTaskState(Task& editTask) {
                                                 timeDueText.getTextbox()); // Saves user entered data to task.
 
 						std::ofstream jsonFile; // Create the stream
+                        std::string pathDir = "jsonData/";
 						std::string jsonFileName = editTask.getTaskName();
-						jsonFileName += ".json";
+						pathDir += jsonFileName += ".json"; // Create a new file named the Task Name and put it in the jsonData folder
 
-						jsonFile.open(jsonFileName, std::ofstream::out ); // Open the file for appending
+						jsonFile.open(pathDir, std::ofstream::out ); // Open the file for appending
 						{
 							cereal::JSONOutputArchive ar(jsonFile);
-							editTask.serialize(ar); // Adding contents to stream / making them suitable for JSON
+                            ar(CEREAL_NVP(editTask)); // Adding contents to stream / making them suitable for JSON
 						}
 						jsonFile.close(); // Close the stream when done
-
+                        
                         stateStack.pop();
                     }
                     else if (butManager.getRef("discardTaskButt").isHovered(window)) {
@@ -338,3 +363,4 @@ void UniversalClass::editTaskState(Task& editTask) {
     }
 
 }
+

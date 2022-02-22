@@ -5,6 +5,8 @@
 #include <iostream>
 #include <stack>
 #include <queue>
+#include <fstream>
+#include <filesystem>
 #include "resource.h"
 #include "texture_manager.hpp"
 #include "resourceManager.hpp"
@@ -26,7 +28,7 @@ public:
 	ResourceManager<sf::Font> fontManager;
 	sf::Sprite background;
 	std::stack<int> stateStack;
-	std::queue<Task> taskQueue;
+	std::priority_queue<Task> taskQueue;
 	HINSTANCE hInstance = GetModuleHandle(nullptr);
 	WNDCLASS wc;
 	HWND hWnd, m_hwnd;
@@ -38,6 +40,7 @@ public:
 
 	void loadTextures();
 	void loadAssets();
+	void deserializeTasks();
 
 	void dummyWindowSetup();
 	static LRESULT CALLBACK WndProc(HWND, UINT, WPARAM, LPARAM);

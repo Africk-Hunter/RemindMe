@@ -21,6 +21,24 @@ public:
 
 	void saveEnteredData(sf::Text, sf::Text, sf::Text, sf::Text);
 
+	/*
+	template <class Archive>
+	double save_minimal(
+		Archive const&,
+		Task const& md)
+	{
+		return md.d;
+	}
+
+	template <class Archive>
+	void load_minimal(Archive const&,
+		Task& md,
+		double const& value)
+	{
+		md.d = value;
+	}
+	*/
+	
 	template<class Archive>
 	void serialize(Archive& archive)
 	{
@@ -32,15 +50,14 @@ public:
 				CEREAL_NVP(timeHours), 
 				CEREAL_NVP(timeMinutes),
 				CEREAL_NVP(finalTime),
-				CEREAL_NVP(repeat));
+				CEREAL_NVP(repeat),
+				CEREAL_NVP(priority));
 	}
 
 private:
 
 	friend class cereal::access;
 	struct tm tm;
-
-	//time_t finalTime;
 
 	std::string taskName,
 		taskNotes;
@@ -50,7 +67,8 @@ private:
 		dateYear,
 		timeHours,
 		timeMinutes,
-		repeat;
+		repeat,
+		priority;
 	long int finalTime;
 
 };

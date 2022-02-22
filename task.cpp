@@ -12,6 +12,7 @@ Task::Task() {
 	timeHours = 0;
 	timeMinutes = 0;
 	repeat = 0;
+	priority = 0;
 
 }
 
