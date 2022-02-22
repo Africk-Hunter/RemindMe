@@ -195,7 +195,7 @@ void UniversalClass::mainMenuState() {
     
     
     while (stateStack.top() == 1) {
-        background.setTexture(txtManager.getRef("mainMenu"));
+        
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -228,7 +228,7 @@ void UniversalClass::mainMenuState() {
                 }
             }
            
-
+            background.setTexture(txtManager.getRef("mainMenu"));
             window.clear();
             window.draw(background);
             
@@ -305,6 +305,9 @@ void UniversalClass::editTaskState(Task& editTask) {
 						}
 						jsonFile.close(); // Close the stream when done
 
+                        stateStack.pop();
+                    }
+                    else if (butManager.getRef("discardTaskButt").isHovered(window)) {
                         stateStack.pop();
                     }
                 }
