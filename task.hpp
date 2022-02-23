@@ -12,12 +12,14 @@ public:
 	void setTaskName(std::string);
 	void setTaskNotes(std::string);
 	void setDueTime(std::string, std::string);
-	void setRepeat(int);
-	
+	void setReminder(bool);
+	void setPriority(int);
+
 	std::string getTaskName();
 	std::string getTaskNotes();
 	long int getTime();
-	int getRepeat();
+	bool getReminder();
+	int getPriority();
 
 	bool operator<(const Task& rhs) const;
 
@@ -33,11 +35,9 @@ public:
 				CEREAL_NVP(timeHours), 
 				CEREAL_NVP(timeMinutes),
 				CEREAL_NVP(finalTime),
-				CEREAL_NVP(repeat),
+				CEREAL_NVP(reminder),
 				CEREAL_NVP(priority));
 	}
-
-	
 
 private:
 
@@ -52,8 +52,8 @@ private:
 		dateYear,
 		timeHours,
 		timeMinutes,
-		repeat,
 		priority;
 	long int finalTime;
+	bool reminder;
 
 };

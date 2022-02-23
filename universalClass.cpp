@@ -128,6 +128,7 @@ void UniversalClass::loadTextures() {
     txtManager.loadTexture("mainMenu_exit", "media/textures/mainMenu_Exit.png");
     txtManager.loadTexture("settingsCog", "media/textures/settingsCog.png");
     txtManager.loadTexture("blank_image", "media/textures/blank_image.png");
+    txtManager.loadTexture("checkMark", "media/textures/checkMark.png");
 
 }
 
@@ -270,10 +271,28 @@ void UniversalClass::mainMenuState() {
 
 void UniversalClass::editTaskState(Task& editTask) {
 
+    /* Declare screen elements so that they are destroyed when the task is saved/discarded */
+
 	Textbox taskNameText(24, 23, { static_cast<float>(window.getView().getSize().x * 0.59244), static_cast<float>(window.getView().getSize().y * 0.09722) }, { static_cast<float>(window.getView().getSize().x * 0.315104), static_cast<float>(window.getView().getSize().y * 0.226851) }, sf::Color::White, fontManager.getRef("simplePixels"));
 	Textbox taskNotesText(24, 101, { static_cast<float>(window.getView().getSize().x * 0.578125), static_cast<float>(window.getView().getSize().y * 0.22453) }, { static_cast<float>(window.getView().getSize().x * 0.329425), static_cast<float>(window.getView().getSize().y * 0.34722222) }, sf::Color::White, fontManager.getRef("simplePixels"));
 	Textbox dueDateText(24, 10, { static_cast<float>(window.getView().getSize().x * 0.34375), static_cast<float>(window.getView().getSize().y * 0.0462962) }, { static_cast<float>(window.getView().getSize().x * 0.286458), static_cast<float>(window.getView().getSize().y * 0.6157) }, sf::Color::White, fontManager.getRef("simplePixels"));
 	Textbox timeDueText(24, 7, { static_cast<float>(window.getView().getSize().x * 0.34375), static_cast<float>(window.getView().getSize().y * 0.0462962) }, { static_cast<float>(window.getView().getSize().x * 0.286458), static_cast<float>(window.getView().getSize().y * 0.7037037) }, sf::Color::White, fontManager.getRef("simplePixels"));
+    Button priorityOne({ static_cast<float>(window.getView().getSize().x * 0.6875), static_cast<float>(window.getView().getSize().y * 0.652777) }, { static_cast<float>(window.getView().getSize().x * 0.015625), static_cast<float>(window.getView().getSize().y * 0.0277777) });
+    Button priorityTwo({ static_cast<float>(window.getView().getSize().x * 0.727864583), static_cast<float>(window.getView().getSize().y * 0.652777) }, { static_cast<float>(window.getView().getSize().x * 0.015625), static_cast<float>(window.getView().getSize().y * 0.0277777) });
+    Button priorityThree({ static_cast<float>(window.getView().getSize().x * 0.768229166), static_cast<float>(window.getView().getSize().y * 0.652777) }, { static_cast<float>(window.getView().getSize().x * 0.015625), static_cast<float>(window.getView().getSize().y * 0.0277777) });
+    Button priorityFour({ static_cast<float>(window.getView().getSize().x * 0.80859375), static_cast<float>(window.getView().getSize().y * 0.652777) }, { static_cast<float>(window.getView().getSize().x * 0.015625), static_cast<float>(window.getView().getSize().y * 0.0277777) });
+    Button priorityFive({ static_cast<float>(window.getView().getSize().x * 0.8489583), static_cast<float>(window.getView().getSize().y * 0.652777) }, { static_cast<float>(window.getView().getSize().x * 0.015625), static_cast<float>(window.getView().getSize().y * 0.0277777) });
+	Button reminderOn({ static_cast<float>(window.getView().getSize().x * 0.74609375), static_cast<float>(window.getView().getSize().y * 0.724537) }, { static_cast<float>(window.getView().getSize().x * 0.015625), static_cast<float>(window.getView().getSize().y * 0.0277777) });
+	Button reminderOff({ static_cast<float>(window.getView().getSize().x * 0.79947916), static_cast<float>(window.getView().getSize().y * 0.724537) }, { static_cast<float>(window.getView().getSize().x * 0.015625), static_cast<float>(window.getView().getSize().y * 0.0277777) });
+    priorityOne.setTexture(txtManager.getRef("blank_image"));
+    priorityTwo.setTexture(txtManager.getRef("blank_image"));
+    priorityThree.setTexture(txtManager.getRef("blank_image"));
+    priorityFour.setTexture(txtManager.getRef("blank_image"));
+    priorityFive.setTexture(txtManager.getRef("blank_image"));
+    reminderOn.setTexture(txtManager.getRef("blank_image"));
+    reminderOff.setTexture(txtManager.getRef("blank_image"));
+
+    /*--------------------------------------------------------------------------------------*/
 
     background.setTexture(txtManager.getRef("newTask"));
 
@@ -314,6 +333,56 @@ void UniversalClass::editTaskState(Task& editTask) {
                         dueDateText.turnOffSelection();
                         timeDueText.reverseSelectState();
                     }
+                    else if (priorityOne.isHovered(window)) {
+                        editTask.setPriority(1);
+						priorityOne.setTexture(txtManager.getRef("checkMark"));
+						priorityTwo.setTexture(txtManager.getRef("blank_image"));
+						priorityThree.setTexture(txtManager.getRef("blank_image"));
+						priorityFour.setTexture(txtManager.getRef("blank_image"));
+						priorityFive.setTexture(txtManager.getRef("blank_image"));
+                    }
+					else if (priorityTwo.isHovered(window)) {
+						editTask.setPriority(2);
+						priorityOne.setTexture(txtManager.getRef("blank_image"));
+						priorityTwo.setTexture(txtManager.getRef("checkMark"));
+						priorityThree.setTexture(txtManager.getRef("blank_image"));
+						priorityFour.setTexture(txtManager.getRef("blank_image"));
+						priorityFive.setTexture(txtManager.getRef("blank_image"));
+					}
+					else if (priorityThree.isHovered(window)) {
+						editTask.setPriority(3);
+						priorityOne.setTexture(txtManager.getRef("blank_image"));
+						priorityTwo.setTexture(txtManager.getRef("blank_image"));
+						priorityThree.setTexture(txtManager.getRef("checkMark"));
+						priorityFour.setTexture(txtManager.getRef("blank_image"));
+						priorityFive.setTexture(txtManager.getRef("blank_image"));
+					}
+					else if (priorityFour.isHovered(window)) {
+						editTask.setPriority(4);
+						priorityOne.setTexture(txtManager.getRef("blank_image"));
+						priorityTwo.setTexture(txtManager.getRef("blank_image"));
+						priorityThree.setTexture(txtManager.getRef("blank_image"));
+						priorityFour.setTexture(txtManager.getRef("checkMark"));
+						priorityFive.setTexture(txtManager.getRef("blank_image"));
+					}
+                    else if (priorityFive.isHovered(window)) {
+                        editTask.setPriority(5);
+						priorityOne.setTexture(txtManager.getRef("blank_image"));
+						priorityTwo.setTexture(txtManager.getRef("blank_image"));
+						priorityThree.setTexture(txtManager.getRef("blank_image"));
+						priorityFour.setTexture(txtManager.getRef("blank_image"));
+						priorityFive.setTexture(txtManager.getRef("checkMark"));
+                    }
+					else if (reminderOn.isHovered(window)) {
+                        editTask.setReminder(true);
+                        reminderOn.setTexture(txtManager.getRef("checkMark"));
+                        reminderOff.setTexture(txtManager.getRef("blank_image"));
+					}
+					else if (reminderOff.isHovered(window)) {
+                        editTask.setReminder(false);
+                        reminderOn.setTexture(txtManager.getRef("blank_image"));
+                        reminderOff.setTexture(txtManager.getRef("checkMark"));
+					}
                     else if (butManager.getRef("saveTaskButton").isHovered(window)) {
                         editTask.saveEnteredData(taskNameText.getTextbox(),
                                                 taskNotesText.getTextbox(),
@@ -356,6 +425,13 @@ void UniversalClass::editTaskState(Task& editTask) {
 
             window.clear();
             window.draw(background);
+            priorityOne.drawTo(window);
+            priorityTwo.drawTo(window);
+            priorityThree.drawTo(window);
+            priorityFour.drawTo(window);
+            priorityFive.drawTo(window);
+            reminderOn.drawTo(window);
+            reminderOff.drawTo(window);
             taskNameText.drawTo(window);
             taskNotesText.drawTo(window);
             dueDateText.drawTo(window);

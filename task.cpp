@@ -11,7 +11,7 @@ Task::Task() {
 	dateYear = 0;
 	timeHours = 0;
 	timeMinutes = 0;
-	repeat = 0;
+	reminder = false;
 	priority = 0;
 
 }
@@ -69,16 +69,13 @@ void Task::setDueTime(std::string nDay, std::string nTime) {
 	finalTime = static_cast<long int>(rawtime);
 	
 }
-void Task::setRepeat(int repeatNum) {
-	/*
-		0 = Never
-		1 = Daily
-		2 = Weekly
-		3 = Monthly
-		4 = Yearly
-	*/
-	repeat = repeatNum;
+void Task::setReminder(bool bRemind) {
+	reminder = bRemind;
 }
+void Task::setPriority(int nPri) {
+	priority = nPri;
+}
+
 std::string Task::getTaskName() {
 	return taskName;
 }
@@ -88,9 +85,13 @@ std::string Task::getTaskNotes() {
 long int Task::getTime() {
 	return finalTime;
 }
-int Task::getRepeat() {
-	return repeat;
+bool Task::getReminder() {
+	return reminder;
 }
+int Task::getPriority() {
+	return priority;
+}
+
 
 void Task::saveEnteredData(sf::Text textTaskName, sf::Text textTaskNotes, sf::Text taskDueDate, sf::Text taskTimeDue) {
 	taskName = textTaskName.getString();

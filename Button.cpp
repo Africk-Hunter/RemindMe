@@ -13,7 +13,7 @@ Button::Button(sf::Vector2f pos, sf::Vector2f size) {
 	button.setPosition(pos);
 	button.setSize(size);
 	setSizeX(size.x);
-	setSizeX(size.y);
+	setSizeY(size.y);
 
 	//float xOrg = button.getLocalBounds().width / 2;
 	//float yOrg = button.getLocalBounds().height / 2;
