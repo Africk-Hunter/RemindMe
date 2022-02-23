@@ -122,6 +122,7 @@ void UniversalClass::loadTextures() {
 
     txtManager.loadTexture("mainMenu", "media/textures/RemindMe_MainMenu.png");
     txtManager.loadTexture("newTask", "media/textures/RemindMe_newTaskMenu.png");
+    txtManager.loadTexture("currentTaskMenu", "media/textures/currentTaskMenu.png");
     txtManager.loadTexture("mainMenu_newTask", "media/textures/mainMenu_newTask.png");
     txtManager.loadTexture("mainMenu_currentTask", "media/textures/mainMenu_currentTasks.png");
     txtManager.loadTexture("mainMenu_completedTask", "media/textures/mainMenu_completedtTasks.png");
@@ -129,6 +130,7 @@ void UniversalClass::loadTextures() {
     txtManager.loadTexture("settingsCog", "media/textures/settingsCog.png");
     txtManager.loadTexture("blank_image", "media/textures/blank_image.png");
     txtManager.loadTexture("checkMark", "media/textures/checkMark.png");
+    
 
 }
 
@@ -150,6 +152,15 @@ void UniversalClass::loadAssets() {
     Button timeDueButton({ static_cast<float>(window.getView().getSize().x * 0.09375), static_cast<float>(window.getView().getSize().y * 0.694444) }, { static_cast<float>(window.getView().getSize().x * 0.52083), static_cast<float>(window.getView().getSize().y * 0.0625) });
     Button saveTaskButton({ static_cast<float>(window.getView().getSize().x * 0.31770833), static_cast<float>(window.getView().getSize().y * 0.787037) }, { static_cast<float>(window.getView().getSize().x * 0.15625), static_cast<float>(window.getView().getSize().y * 0.0555555) });
     Button discardTaskButt({ static_cast<float>(window.getView().getSize().x * 0.53125), static_cast<float>(window.getView().getSize().y * 0.787037) }, { static_cast<float>(window.getView().getSize().x * 0.15625), static_cast<float>(window.getView().getSize().y * 0.0555555) });
+    Button currentTaskOne({ static_cast<float>(window.getView().getSize().x * 0.119658), static_cast<float>(window.getView().getSize().y * 0.09259) }, { static_cast<float>(window.getView().getSize().x * 0.08333), static_cast<float>(window.getView().getSize().y * 0.157407) });
+    Button currentTaskTwo({ static_cast<float>(window.getView().getSize().x * 0.119658), static_cast<float>(window.getView().getSize().y * 0.25925) }, { static_cast<float>(window.getView().getSize().x * 0.08333), static_cast<float>(window.getView().getSize().y * 0.157407) });
+    Button currentTaskThree({ static_cast<float>(window.getView().getSize().x * 0.119658), static_cast<float>(window.getView().getSize().y * 0.42592) }, { static_cast<float>(window.getView().getSize().x * 0.08333), static_cast<float>(window.getView().getSize().y * 0.157407) });
+    Button currentTaskFour({ static_cast<float>(window.getView().getSize().x * 0.119658), static_cast<float>(window.getView().getSize().y * 0.59259) }, { static_cast<float>(window.getView().getSize().x * 0.08333), static_cast<float>(window.getView().getSize().y * 0.157407) });
+    Button exitCurrentTask({ static_cast<float>(window.getView().getSize().x * 0.53125), static_cast<float>(window.getView().getSize().y * 0.787037) }, { static_cast<float>(window.getView().getSize().x * 0.15625), static_cast<float>(window.getView().getSize().y * 0.0555555) });
+    Button viewCurrentTask({ static_cast<float>(window.getView().getSize().x * 0.53125), static_cast<float>(window.getView().getSize().y * 0.787037) }, { static_cast<float>(window.getView().getSize().x * 0.15625), static_cast<float>(window.getView().getSize().y * 0.0555555) });
+    Button editCurrentTask({ static_cast<float>(window.getView().getSize().x * 0.53125), static_cast<float>(window.getView().getSize().y * 0.787037) }, { static_cast<float>(window.getView().getSize().x * 0.15625), static_cast<float>(window.getView().getSize().y * 0.0555555) });
+    Button deleteCurrentTask({ static_cast<float>(window.getView().getSize().x * 0.53125), static_cast<float>(window.getView().getSize().y * 0.787037) }, { static_cast<float>(window.getView().getSize().x * 0.15625), static_cast<float>(window.getView().getSize().y * 0.0555555) });
+
 
     /* Add resources to their respective resource managers*/
     butManager.loadResource("newTaskButton", newTask);
@@ -243,7 +254,8 @@ void UniversalClass::mainMenuState() {
                         editTaskState(newTask);
                     }
                     if (butManager.getRef("currentTaskButton").isHovered(window)) {
-                        //stateStack.push(3);
+                        stateStack.push(3);
+                        currentTaskState();
                        
                     }
                     if (butManager.getRef("completedTaskButton").isHovered(window)) {
@@ -442,3 +454,31 @@ void UniversalClass::editTaskState(Task& editTask) {
 
 }
 
+void UniversalClass::currentTaskState() {
+
+    background.setTexture(txtManager.getRef("currentTaskMenu"));
+
+    int boxSelected;
+
+	while (stateStack.top() == 3) {
+		sf::Event event;
+		while (window.pollEvent(event) && stateStack.top() == 3)
+		{
+			if (event.type == sf::Event::Closed) {
+				window.close();
+			}
+			if (event.type == sf::Event::MouseButtonPressed) {
+
+				if (event.mouseButton.button == sf::Mouse::Left) {
+					if (butManager.getRef("taskNameButton").isHovered(window)) {
+					}
+					
+				}
+			}
+
+			window.clear();
+			window.draw(background);
+			window.display();
+		}
+	}
+}
