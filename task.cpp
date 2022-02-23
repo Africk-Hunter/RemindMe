@@ -97,3 +97,10 @@ void Task::saveEnteredData(sf::Text textTaskName, sf::Text textTaskNotes, sf::Te
 	taskNotes = textTaskNotes.getString();
 	setDueTime(taskDueDate.getString(), taskTimeDue.getString());
 }
+
+bool Task::operator<(const Task& rhs) const {
+	if (priority < rhs.priority) {
+		return false;
+	}
+	return true;
+}

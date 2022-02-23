@@ -19,26 +19,9 @@ public:
 	long int getTime();
 	int getRepeat();
 
+	bool operator<(const Task& rhs) const;
+
 	void saveEnteredData(sf::Text, sf::Text, sf::Text, sf::Text);
-
-	/*
-	template <class Archive>
-	double save_minimal(
-		Archive const&,
-		Task const& md)
-	{
-		return md.d;
-	}
-
-	template <class Archive>
-	void load_minimal(Archive const&,
-		Task& md,
-		double const& value)
-	{
-		md.d = value;
-	}
-	*/
-	
 	template<class Archive>
 	void serialize(Archive& archive)
 	{
@@ -54,8 +37,7 @@ public:
 				CEREAL_NVP(priority));
 	}
 
-	void epilogue(cereal::JSONInputArchive&, const Task&) { }
-	void prologue(cereal::JSONInputArchive&, const Task&) { }
+	
 
 private:
 
