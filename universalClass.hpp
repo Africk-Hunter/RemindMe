@@ -28,7 +28,7 @@ public:
 	ResourceManager<sf::Font> fontManager;
 	sf::Sprite background;
 	std::stack<int> stateStack;
-	std::priority_queue<Task> taskQueue;
+	std::/*priority_queue<Task>*/queue<Task> taskQueue;
 	HINSTANCE hInstance = GetModuleHandle(nullptr);
 	WNDCLASS wc;
 	HWND hWnd, m_hwnd;

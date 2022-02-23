@@ -192,22 +192,24 @@ void UniversalClass::deserializeTasks() {
         Task loadedTask;
 
         std::string nDirPath;
-        nDirPath = dir_entry.path().string();
+		nDirPath = dir_entry.path().string();
 
 		std::ifstream jsonFileReader; // Create the stream
-        //std::stringstream jsonString;
+        std::stringstream jsonString();
 
         
         jsonFileReader.open(nDirPath, std::ofstream::in); 
 		{
-			cereal::JSONInputArchive ar_in(jsonFileReader);
-            //ar_in(loadedTask);
-            loadedTask.serialize(ar_in);
-			//editTask.serialize(ar); // Adding contents to stream / making them suitable for JSON
+            cereal::JSONInputArchive ar_in(jsonFileReader);
+			if (nDirPath[nDirPath.length()] != '/') {
+				ar_in(loadedTask);
+            }
+			
+            //loadedTask.serialize(ar_in);
 		}
         jsonFileReader.close(); // Close the stream when done
 
-       // taskQueue.push(loadedTask);
+        taskQueue.push(loadedTask);
         //std::cout << taskQueue.top().getTaskName();
        
 	}

@@ -54,6 +54,9 @@ public:
 				CEREAL_NVP(priority));
 	}
 
+	void epilogue(cereal::JSONInputArchive&, const Task&) { }
+	void prologue(cereal::JSONInputArchive&, const Task&) { }
+
 private:
 
 	friend class cereal::access;
