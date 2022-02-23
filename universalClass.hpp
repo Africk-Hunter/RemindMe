@@ -5,6 +5,7 @@
 #include <iostream>
 #include <stack>
 #include <queue>
+#include <vector>
 #include <fstream>
 #include <filesystem>
 #include "resource.h"
@@ -29,6 +30,7 @@ public:
 	sf::Sprite background;
 	std::stack<int> stateStack;
 	std::priority_queue<Task> taskQueue;
+	std::vector<Task> taskVec;
 	HINSTANCE hInstance = GetModuleHandle(nullptr);
 	WNDCLASS wc;
 	HWND hWnd, m_hwnd;
