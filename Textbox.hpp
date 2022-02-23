@@ -26,6 +26,7 @@ public:
 	void setMaxChars(int);
 	void setFont(sf::Font&);
 	void setPosition(sf::Vector2f);
+	void setString(std::string);
 
 	void drawTo(sf::RenderWindow&);
 	void verifyValidInput(sf::Event);

@@ -161,10 +161,10 @@ void UniversalClass::loadAssets() {
     Button editCurrentTask({ static_cast<float>(window.getView().getSize().x * .5), static_cast<float>(window.getView().getSize().y * 0.75925) }, { static_cast<float>(window.getView().getSize().x * 0.1614583), static_cast<float>(window.getView().getSize().y * 0.111111) });
     Button deleteCurrentTask({ static_cast<float>(window.getView().getSize().x * 0.666666), static_cast<float>(window.getView().getSize().y * 0.75925) }, { static_cast<float>(window.getView().getSize().x * 0.171875), static_cast<float>(window.getView().getSize().y * 0.111111) });
 
-    Textbox taskOneCurrentDis(24, 23, { static_cast<float>(window.getView().getSize().x * 0.765625), static_cast<float>(window.getView().getSize().y * 0.1574074) }, { static_cast<float>(window.getView().getSize().x * 0.1614583), static_cast<float>(window.getView().getSize().y * 0.0925925) }, sf::Color::White, fontManager.getRef("simplePixels"));
-    Textbox taskTwoCurrentDis(24, 23, { static_cast<float>(window.getView().getSize().x * 0.765625), static_cast<float>(window.getView().getSize().y * 0.1574074) }, { static_cast<float>(window.getView().getSize().x * 0.1614583), static_cast<float>(window.getView().getSize().y * 0.25925925) }, sf::Color::White, fontManager.getRef("simplePixels"));
-    Textbox taskThreeCurrentDis(24, 23, { static_cast<float>(window.getView().getSize().x * 0.765625), static_cast<float>(window.getView().getSize().y * 0.1574074) }, { static_cast<float>(window.getView().getSize().x * 0.1614583), static_cast<float>(window.getView().getSize().y * 0.42592) }, sf::Color::White, fontManager.getRef("simplePixels"));
-    Textbox taskFourCurrentDis(24, 23, { static_cast<float>(window.getView().getSize().x * 0.765625), static_cast<float>(window.getView().getSize().y * 0.1574074) }, { static_cast<float>(window.getView().getSize().x * 0.1614583), static_cast<float>(window.getView().getSize().y * 0.5925925) }, sf::Color::White, fontManager.getRef("simplePixels"));
+    Textbox taskOneCurrentDis(32, 23, { static_cast<float>(window.getView().getSize().x * 0.723958), static_cast<float>(window.getView().getSize().y * 0.05555) }, { static_cast<float>(window.getView().getSize().x * 0.188802), static_cast<float>(window.getView().getSize().y * 0.143518) }, sf::Color::White, fontManager.getRef("simplePixels"));
+    Textbox taskTwoCurrentDis(32, 23, { static_cast<float>(window.getView().getSize().x * 0.723958), static_cast<float>(window.getView().getSize().y * 0.05555) }, { static_cast<float>(window.getView().getSize().x * 0.188802), static_cast<float>(window.getView().getSize().y * 0.31018) }, sf::Color::White, fontManager.getRef("simplePixels"));
+    Textbox taskThreeCurrentDis(32, 23, { static_cast<float>(window.getView().getSize().x * 0.723958), static_cast<float>(window.getView().getSize().y * 0.05555) }, { static_cast<float>(window.getView().getSize().x * 0.188802), static_cast<float>(window.getView().getSize().y * 0.4768) }, sf::Color::White, fontManager.getRef("simplePixels"));
+    Textbox taskFourCurrentDis(32, 23, { static_cast<float>(window.getView().getSize().x * 0.723958), static_cast<float>(window.getView().getSize().y * 0.05555) }, { static_cast<float>(window.getView().getSize().x * 0.188802), static_cast<float>(window.getView().getSize().y * 0.64351) }, sf::Color::White, fontManager.getRef("simplePixels"));
 
     /* Add resources to their respective resource managers*/
     butManager.loadResource("newTaskButton", newTask);
@@ -250,7 +250,7 @@ void UniversalClass::deserializeTasks() {
         //std::cout << taskQueue.top().getTaskName();
        
 	}
-    for (int j = 0; j < 1; j++) {
+    for (int j = 0; j < i; j++) {
         taskVec.push_back(taskQueue.top());
         taskQueue.pop();
     }
@@ -489,6 +489,8 @@ void UniversalClass::currentTaskState() {
 
     int boxSelected = 0;
 
+    textboxManager.getRef("taskOneCurrentDis").setString(taskVec.at(1).getTaskName());
+
 	while (stateStack.top() == 3) {
 		sf::Event event;
 		while (window.pollEvent(event) && stateStack.top() == 3)
@@ -517,6 +519,7 @@ void UniversalClass::currentTaskState() {
 
 			window.clear();
 			window.draw(background);
+            textboxManager.getRef("taskOneCurrentDis").drawTo(window);
 			window.display();
 		}
 	}

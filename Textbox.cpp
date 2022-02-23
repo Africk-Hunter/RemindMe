@@ -36,6 +36,9 @@ Textbox::Textbox(int charSize, int charLim, sf::Vector2f nSize, sf::Vector2f nPo
 	
 }
 
+void Textbox::setString(std::string newString) {
+	textbox.setString(newString);
+}
 void Textbox::reverseSelectState() {
 	isSelected = !isSelected;
 }
