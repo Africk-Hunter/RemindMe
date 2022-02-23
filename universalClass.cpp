@@ -488,8 +488,21 @@ void UniversalClass::currentTaskState() {
     background.setTexture(txtManager.getRef("currentTaskMenu"));
 
     int boxSelected = 0;
+    int elementCount = taskVec.size() - 1;
 
-    textboxManager.getRef("taskOneCurrentDis").setString(taskVec.at(1).getTaskName());
+    if (elementCount >= 1) {
+        textboxManager.getRef("taskOneCurrentDis").setString(taskVec.at(1).getTaskName());
+    }
+	if (elementCount >= 2) {
+        textboxManager.getRef("taskTwoCurrentDis").setString(taskVec.at(2).getTaskName());
+	}
+	if (elementCount >= 3) {
+        textboxManager.getRef("taskThreeCurrentDis").setString(taskVec.at(3).getTaskName());
+	}
+	if (elementCount >= 4) {
+        textboxManager.getRef("taskFourCurrentDis").setString(taskVec.at(4).getTaskName());
+	}
+    
 
 	while (stateStack.top() == 3) {
 		sf::Event event;
@@ -520,6 +533,9 @@ void UniversalClass::currentTaskState() {
 			window.clear();
 			window.draw(background);
             textboxManager.getRef("taskOneCurrentDis").drawTo(window);
+            textboxManager.getRef("taskTwoCurrentDis").drawTo(window);
+            textboxManager.getRef("taskThreeCurrentDis").drawTo(window);
+            textboxManager.getRef("taskFourCurrentDis").drawTo(window);
 			window.display();
 		}
 	}
