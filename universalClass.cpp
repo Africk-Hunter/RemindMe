@@ -131,6 +131,7 @@ void UniversalClass::loadTextures() {
     txtManager.loadTexture("blank_image", "media/textures/blank_image.png");
     txtManager.loadTexture("checkMark", "media/textures/checkMark.png");
     txtManager.loadTexture("buttonX", "media/textures/buttonX.png");
+    txtManager.loadTexture("viewTaskMode", "media/textures/RemindMe_viewTask.png");
 
 }
 
@@ -272,7 +273,7 @@ void UniversalClass::mainMenuState() {
             if (event.type == sf::Event::Resized) {
 
             }
-            if (event.type == sf::Event::MouseButtonPressed) {
+            if (event.type == sf::Event::MouseButtonReleased) {
 
                 if (event.mouseButton.button == sf::Mouse::Left) {
 
@@ -334,8 +335,13 @@ void UniversalClass::editTaskState(Task& editTask) {
     reminderOff.setTexture(txtManager.getRef("blank_image"));
 
     /*--------------------------------------------------------------------------------------*/
-
-    background.setTexture(txtManager.getRef("newTask"));
+    if (stateStack.top() == 5) { // If view mode
+        background.setTexture(txtManager.getRef("viewTaskMode"));
+    }
+    else {
+        background.setTexture(txtManager.getRef("newTask"));
+    }
+    
 
     while (stateStack.top() == 2) {
         sf::Event event;
@@ -541,32 +547,91 @@ void UniversalClass::currentTaskState() {
 			if (event.type == sf::Event::Closed) {
 				window.close();
 			}
-			if (event.type == sf::Event::MouseButtonPressed) {
+			if (event.type == sf::Event::MouseButtonReleased) {
 
-				if (event.mouseButton.button == sf::Mouse::Left) {
-
-					if (butManager.getRef("currentTaskOne").isHovered(window)) {
-                        if (oneText == false) {
-                            oneText = true;
-							boxSelected = 1;
-							butManager.getRef("currentTaskOne").setTexture(txtManager.getRef("buttonX"));
-                        }
-                        else {
-                            oneText = false;
-                            boxSelected = 0;
-                            butManager.getRef("currentTaskOne").setTexture(txtManager.getRef("blank_image"));
-                        }
-					}
-					if (butManager.getRef("currentTaskOne").isHovered(window)) {
-						boxSelected = 2;
-					}
-					if (butManager.getRef("currentTaskOne").isHovered(window)) {
-						boxSelected = 3;
-					}
-					if (butManager.getRef("currentTaskOne").isHovered(window)) {
-						boxSelected = 4;
-					}
+                if (event.mouseButton.button == sf::Mouse::Left) {
+                    {
+						if (butManager.getRef("currentTaskOne").isHovered(window)) {
+							if (oneText == false) {
+								oneText = true;
+								twoText = false;
+								threeText = false;
+								fourText = false;
+								boxSelected = 1;
+								butManager.getRef("currentTaskOne").setTexture(txtManager.getRef("buttonX"));
+								butManager.getRef("currentTaskTwo").setTexture(txtManager.getRef("blank_image"));
+								butManager.getRef("currentTaskThree").setTexture(txtManager.getRef("blank_image"));
+								butManager.getRef("currentTaskFour").setTexture(txtManager.getRef("blank_image"));
+							}
+							else {
+								oneText = false;
+								boxSelected = 0;
+								butManager.getRef("currentTaskOne").setTexture(txtManager.getRef("blank_image"));
+							}
+						}
+						if (butManager.getRef("currentTaskTwo").isHovered(window)) {
+							if (twoText == false) {
+								oneText = false;
+								twoText = true;
+								threeText = false;
+								fourText = false;
+								boxSelected = 2;
+								butManager.getRef("currentTaskTwo").setTexture(txtManager.getRef("buttonX"));
+								butManager.getRef("currentTaskOne").setTexture(txtManager.getRef("blank_image"));
+								butManager.getRef("currentTaskThree").setTexture(txtManager.getRef("blank_image"));
+								butManager.getRef("currentTaskFour").setTexture(txtManager.getRef("blank_image"));
+							}
+							else {
+								twoText = false;
+								boxSelected = 0;
+								butManager.getRef("currentTaskTwo").setTexture(txtManager.getRef("blank_image"));
+							}
+						}
+						if (butManager.getRef("currentTaskThree").isHovered(window)) {
+							if (threeText == false) {
+								oneText = false;
+								twoText = false;
+								threeText = true;
+								fourText = false;
+								boxSelected = 3;
+								butManager.getRef("currentTaskThree").setTexture(txtManager.getRef("buttonX"));
+								butManager.getRef("currentTaskOne").setTexture(txtManager.getRef("blank_image"));
+								butManager.getRef("currentTaskTwo").setTexture(txtManager.getRef("blank_image"));
+								butManager.getRef("currentTaskFour").setTexture(txtManager.getRef("blank_image"));
+							}
+							else {
+								threeText = false;
+								boxSelected = 0;
+								butManager.getRef("currentTaskThree").setTexture(txtManager.getRef("blank_image"));
+							}
+						}
+						if (butManager.getRef("currentTaskFour").isHovered(window)) {
+							if (fourText == false) {
+								oneText = false;
+								twoText = false;
+								threeText = false;
+								fourText = true;
+								boxSelected = 4;
+								butManager.getRef("currentTaskFour").setTexture(txtManager.getRef("buttonX"));
+								butManager.getRef("currentTaskOne").setTexture(txtManager.getRef("blank_image"));
+								butManager.getRef("currentTaskTwo").setTexture(txtManager.getRef("blank_image"));
+								butManager.getRef("currentTaskThree").setTexture(txtManager.getRef("blank_image"));
+							}
+							else {
+								fourText = false;
+								boxSelected = 0;
+								butManager.getRef("currentTaskFour").setTexture(txtManager.getRef("blank_image"));
+							}
+                    }
 					
+					}	
+
+                    if (butManager.getRef("viewCurrentTask").isHovered(window)) {
+                        
+                    }
+                    if (butManager.getRef("exitCurrentTask").isHovered(window)) {
+                        stateStack.pop();
+                    }
 				}
 			}
 
@@ -574,6 +639,10 @@ void UniversalClass::currentTaskState() {
 			window.draw(background);
             
             butManager.getRef("currentTaskOne").drawTo(window);
+            butManager.getRef("currentTaskTwo").drawTo(window);
+            butManager.getRef("currentTaskThree").drawTo(window);
+            butManager.getRef("currentTaskFour").drawTo(window);
+            butManager.getRef("exitCurrentTask").drawTo(window);
             textboxManager.getRef("taskOneCurrentDis").drawTo(window);
             textboxManager.getRef("taskTwoCurrentDis").drawTo(window);
             textboxManager.getRef("taskThreeCurrentDis").drawTo(window);
