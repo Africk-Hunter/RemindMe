@@ -4,16 +4,13 @@ Button::Button() { }
 
 Button::Button(sf::Vector2f pos, sf::Vector2f size) {
 
-	//inputTextbox(16, 80, button.getSize(), false, sf::Color::White);
 	sf::FloatRect textRect = text.getLocalBounds();
 	text.setOrigin(textRect.left + textRect.width / 2.0f, textRect.top + textRect.height / 2.0f);
 	text.setPosition(sf::Vector2f(pos));
 
 	//Button Properties//
 	button.setPosition(pos);
-	button.setSize(size);
-	setSizeX(size.x);
-	setSizeY(size.y);
+	setSize(size);
 
 	//float xOrg = button.getLocalBounds().width / 2;
 	//float yOrg = button.getLocalBounds().height / 2;
@@ -22,12 +19,14 @@ Button::Button(sf::Vector2f pos, sf::Vector2f size) {
 
 
 }
-
-void Button::setSizeX(int nSizeX) {
-	xSize = nSizeX;
+void Button::setSize(sf::Vector2f size) {
+	button.setSize(size);
+	xSize = size.x;
+	ySize = size.y;
 }
-void Button::setSizeY(int nSizeY) {
-	ySize = nSizeY;
+
+sf::Vector2f Button::getSize() {
+	return button.getSize();
 }
 float Button::getSizeX() {
 	return xSize;
@@ -39,6 +38,10 @@ void Button::setTexture(sf::Texture newText) {
 	buttonTexture = newText;
 	button.setTexture(&buttonTexture);
 }
+sf::Texture Button::getTexture() {
+	sf::Texture nText = *button.getTexture();
+	return nText;
+}
 sf::Vector2f Button::getPosition() {
 	return button.getPosition();
 }
@@ -47,7 +50,6 @@ void Button::setPosition(sf::Vector2f pos) {
 	xPos = pos.x;
 	yPos = pos.y;
 	button.setPosition(pos);
-
 
 }
 void Button::drawTo(sf::RenderWindow& window) {

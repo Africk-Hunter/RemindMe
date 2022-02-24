@@ -13,13 +13,14 @@ public:
 	void setTexture(sf::Texture);
 	void setPosition(sf::Vector2f pos);
 	sf::Vector2f getPosition();
-	void setSizeX(int);
-	void setSizeY(int);
+	void setSize(sf::Vector2f);
+
+	sf::Vector2f getSize();
+	sf::Texture getTexture();
 	float getSizeX();
 	float getSizeY();
 	void drawTo(sf::RenderWindow& window);
 	bool isHovered(sf::RenderWindow&);
-	//Textbox inputTextbox;
 
 private:
 
