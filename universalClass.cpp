@@ -342,7 +342,6 @@ void UniversalClass::editTaskState(Task& editTask) {
         background.setTexture(txtManager.getRef("newTask"));
     }
     
-
     while (stateStack.top() == 2) {
         sf::Event event;
         while (window.pollEvent(event) && stateStack.top() == 2)
@@ -501,6 +500,8 @@ void UniversalClass::currentTaskState() {
     int boxSelected = 0,
         pageNumber = 1,
         elementCount = taskVec.size() - 1;
+
+    std::vector<Button> relevantButtons;
 
 	while (stateStack.top() == 3) {
 		sf::Event event;

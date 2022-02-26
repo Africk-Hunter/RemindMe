@@ -1,16 +1,12 @@
 #include "Textbox.hpp"
 #include <sstream>
 
-
-
 Textbox::Textbox() { 
 
 	textbox.setCharacterSize(40);
 	textbox.setFillColor(sf::Color::Black);
 	textString = "";
 	maxChars = 0;
-	lineLimit = 0;
-	charCount = 0;
 	sizeY = 0;
 	sizeX = 0;
 	currentChars = 0;
@@ -29,8 +25,6 @@ Textbox::Textbox(int charSize, int charLim, sf::Vector2f nSize, sf::Vector2f nPo
 	setPosition(nPos);
 	currentPos = 0;
 	maxChars = charLim;
-	lineLimit = sizeX / charSize; // How many characters can fit on a line
-	charCount = 0; // How many chars on the current line
 	currentChars = 0;
 	isSelected = false;
 	
@@ -103,13 +97,11 @@ void Textbox::stringEdit(int typedChar) {
 			if (!(typedChar == ' ')) {
 				textString += typedChar;
 				currentChars++;
-				charCount++;
 			}
 		}
 		else {
 			textString += typedChar;
 			currentChars++;
-			charCount++;
 		}
 	}
 	else if (typedChar == DELETE_KEY) {
@@ -125,15 +117,10 @@ void Textbox::stringEdit(int typedChar) {
 bool Textbox::wrapText(int typedChar) {	
 
 	currentPos += textbox.getCharacterSize();
-	//currentPos = textbox.findCharacterPos(currentChars).x;
-	std::cout << "Current length: " << currentPos << std::endl;
-	std::cout << "Max: " << boundsBox.getPosition().x + boundsBox.getSize().x << std::endl;
 
 	if ( currentPos > boundsBox.getPosition().x + boundsBox.getSize().x - (4 * textbox.getCharacterSize()) ){
 		textString += '\n';
-		charCount = 0;
 		currentPos = 0;
-		//std::cout << "after length: " << currentPos << std::endl;
 		return true;
 	}
 	else {
@@ -146,8 +133,6 @@ void Textbox::deleteChar() {
 	
 	std::string newString = "";
 	int i = 0;
-
-	std::cout << '\n' << textString[textString.length() - 1] << std::endl;
 
 	if (textString[textString.length() - 2] == '\n') {
 		for (i; i < textString.length() - 2; i++) {	
@@ -163,7 +148,6 @@ void Textbox::deleteChar() {
 			newString += textString[i];
 		}
 		currentPos -= textbox.getCharacterSize();
-		std::cout << "after: " << currentPos << std::endl;
 	}
 	textString = newString;
 

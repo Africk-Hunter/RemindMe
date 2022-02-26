@@ -30,9 +30,6 @@ private:
 	
 	float xPos, yPos, xSize, ySize;
 
-
-
-
 };
 
 

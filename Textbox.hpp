@@ -41,9 +41,8 @@ private:
 	sf::RectangleShape boundsBox;
 	std::string textString;
 	bool isSelected;
-	int maxChars, lineLimit, currentChars;
+	int maxChars, currentChars;
 	float sizeX, sizeY, currentPos;
-	int charCount = 0;
 	sf::Font simplePixels;
 	
 	void deleteChar();

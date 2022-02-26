@@ -18,7 +18,6 @@ public:
 
 	void loadResource(const std::string& name, const itemType res) {
 
-		//itemType res;
 		this->resources[name] = res;
 		return;
 

@@ -27,9 +27,6 @@
     <ClCompile Include="task.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="task_manager.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="universalClass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -61,9 +58,6 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="task.hpp">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="task_manager.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="universalClass.hpp">
