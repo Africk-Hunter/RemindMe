@@ -1,0 +1,14 @@
+{
+    "editTask": {
+        "taskName": "Example Task",
+        "taskNotes": "This is an example task  \nfor Remind Me!",
+        "dateDay": 24,
+        "dateMonth": 2,
+        "dateYear": 2022,
+        "timeHours": 12,
+        "timeMinutes": 0,
+        "finalTime": 1645732800,
+        "reminder": false,
+        "priority": 1
+    }
+}
