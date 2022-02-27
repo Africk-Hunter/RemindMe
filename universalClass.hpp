@@ -50,6 +50,7 @@ public:
 	void mainMenuState();
 	void editTaskState(Task&);
 	void currentTaskState();
+	void viewTaskState(Task&);
 
 };
 

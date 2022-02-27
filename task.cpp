@@ -24,7 +24,9 @@ void Task::setTaskNotes(std::string nNotes) {
 }
 void Task::setDueTime(std::string nDay, std::string nTime) {
 	std::string dayString, timeString;
-	
+	stringDate = nDay;
+	stringTime = nTime;
+
 	dayString += nDay[0];
 	dayString += nDay[1];
 	std::cout << dayString << std::endl;
@@ -75,12 +77,17 @@ void Task::setReminder(bool bRemind) {
 void Task::setPriority(int nPri) {
 	priority = nPri;
 }
-
 std::string Task::getTaskName() {
 	return taskName;
 }
 std::string Task::getTaskNotes() {
 	return taskNotes;
+}
+std::string Task::getStringDate() {
+	return stringDate;
+}
+std::string Task::getStringTime() {
+	return stringTime;
 }
 long int Task::getTime() {
 	return finalTime;
@@ -91,14 +98,12 @@ bool Task::getReminder() {
 int Task::getPriority() {
 	return priority;
 }
-
-
 void Task::saveEnteredData(sf::Text textTaskName, sf::Text textTaskNotes, sf::Text taskDueDate, sf::Text taskTimeDue) {
 	taskName = textTaskName.getString();
 	taskNotes = textTaskNotes.getString();
+
 	setDueTime(taskDueDate.getString(), taskTimeDue.getString());
 }
-
 bool Task::operator<(const Task& rhs) const {
 	if (priority < rhs.priority) {
 		return false;

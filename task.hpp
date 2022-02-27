@@ -17,6 +17,8 @@ public:
 
 	std::string getTaskName();
 	std::string getTaskNotes();
+	std::string getStringDate();
+	std::string getStringTime();
 	long int getTime();
 	bool getReminder();
 	int getPriority();
@@ -35,6 +37,8 @@ public:
 				CEREAL_NVP(timeHours), 
 				CEREAL_NVP(timeMinutes),
 				CEREAL_NVP(finalTime),
+				CEREAL_NVP(stringDate),
+				CEREAL_NVP(stringTime),
 				CEREAL_NVP(reminder),
 				CEREAL_NVP(priority));
 	}
@@ -45,7 +49,9 @@ private:
 	struct tm tm;
 
 	std::string taskName,
-		taskNotes;
+				taskNotes,
+				stringDate,
+				stringTime;
 
 	int dateDay,
 		dateMonth,
