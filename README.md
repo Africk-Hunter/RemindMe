@@ -8,7 +8,7 @@
 
 After downloading and unzipping the contents of the repository, naviagte to 'ReminderProgram.exe' via 'RemindMe-master' -> 'x64' -> 'Release'  
 
-## Built With
+## Built Using
 
 * [SFML](https://www.sfml-dev.org/) - The Graphics Library used.
 * [Cereal](https://uscilab.github.io/cereal/index.html) - Serialization/Deserialization Library
