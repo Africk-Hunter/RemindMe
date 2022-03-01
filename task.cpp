@@ -6,6 +6,8 @@ Task::Task() {
 
 	taskName = "";
 	taskNotes = ""; 
+	stringDate = "";
+	stringTime = "";
 	dateDay = 0;
 	dateMonth = 0;
 	dateYear = 0;
@@ -101,7 +103,6 @@ int Task::getPriority() {
 void Task::saveEnteredData(sf::Text textTaskName, sf::Text textTaskNotes, sf::Text taskDueDate, sf::Text taskTimeDue) {
 	taskName = textTaskName.getString();
 	taskNotes = textTaskNotes.getString();
-
 	setDueTime(taskDueDate.getString(), taskTimeDue.getString());
 }
 bool Task::operator<(const Task& rhs) const {

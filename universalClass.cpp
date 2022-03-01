@@ -27,12 +27,14 @@ int UniversalClass::mainLoop() {
 
         window.clear();
         window.draw(background);
+        
         if (stateStack.top() == 1) { // If Main Menu state, draw these elements
             butManager.getRef("newTaskButton").drawTo(window);
             butManager.getRef("currentTaskButton").drawTo(window);
             butManager.getRef("completedTaskButton").drawTo(window);
             butManager.getRef("exitMainMenuButton").drawTo(window);
         }
+        
         butManager.getRef("settingsCogButton").drawTo(window);
         window.display();
     }
@@ -136,12 +138,12 @@ void UniversalClass::loadTextures() {
 }
 
 void UniversalClass::loadAssets() {
-
+    
     sf::Font simplePixels;
     simplePixels.loadFromFile("media/fonts/SimplePixels.ttf");
     fontManager.loadResource("simplePixels", simplePixels);
 
-    /* Initialize Resources*/
+    // Initialize Resources
 	static Button newTask({ static_cast<float>(window.getView().getSize().x * 0.104166), static_cast<float>(window.getView().getSize().y * 0.3796) }, { static_cast<float>(window.getView().getSize().x * 0.4322), static_cast<float>(window.getView().getSize().y * 0.07407) });
 	static Button currentTask({ static_cast<float>(window.getView().getSize().x * 0.104166), static_cast<float>(window.getView().getSize().y * .5) }, { static_cast<float>(window.getView().getSize().x * 0.5364), static_cast<float>(window.getView().getSize().y * 0.07407) });
 	static Button completedTask({ static_cast<float>(window.getView().getSize().x * 0.104166), static_cast<float>(window.getView().getSize().y * 0.62037) }, { static_cast<float>(window.getView().getSize().x * 0.5885416), static_cast<float>(window.getView().getSize().y * 0.07407) });
@@ -167,7 +169,7 @@ void UniversalClass::loadAssets() {
 	Textbox taskThreeCurrentDis(32, 23, { static_cast<float>(window.getView().getSize().x * 0.723958), static_cast<float>(window.getView().getSize().y * 0.05555) }, { static_cast<float>(window.getView().getSize().x * 0.188802), static_cast<float>(window.getView().getSize().y * 0.4768) }, sf::Color::White, fontManager.getRef("simplePixels"));
 	Textbox taskFourCurrentDis(32, 23, { static_cast<float>(window.getView().getSize().x * 0.723958), static_cast<float>(window.getView().getSize().y * 0.05555) }, { static_cast<float>(window.getView().getSize().x * 0.188802), static_cast<float>(window.getView().getSize().y * 0.64351) }, sf::Color::White, fontManager.getRef("simplePixels"));
 
-    /* Add resources to their respective resource managers*/
+    // Add resources to their respective resource managers
     butManager.loadResource("newTaskButton", newTask);
     butManager.loadResource("currentTaskButton", currentTask);
     butManager.loadResource("completedTaskButton", completedTask);
@@ -193,7 +195,7 @@ void UniversalClass::loadAssets() {
     textboxManager.loadResource("taskThreeCurrentDis", taskThreeCurrentDis);
     textboxManager.loadResource("taskFourCurrentDis", taskFourCurrentDis);
 
-    /* Assign textures to resources if needed */
+    // Assign textures to resources if needed 
     butManager.getRef("newTaskButton").setTexture(txtManager.getRef("mainMenu_newTask"));
     butManager.getRef("currentTaskButton").setTexture(txtManager.getRef("mainMenu_currentTask"));
     butManager.getRef("completedTaskButton").setTexture(txtManager.getRef("mainMenu_completedTask"));
@@ -213,7 +215,7 @@ void UniversalClass::loadAssets() {
     butManager.getRef("viewCurrentTask").setTexture(txtManager.getRef("blank_image"));
     butManager.getRef("editCurrentTask").setTexture(txtManager.getRef("blank_image"));
     butManager.getRef("deleteCurrentTask").setTexture(txtManager.getRef("blank_image"));
-
+    
 }
 
 void UniversalClass::deserializeTasks() {
@@ -228,11 +230,11 @@ void UniversalClass::deserializeTasks() {
 	{
         Task loadedTask;
 
-        std::string nDirPath;
+        std::string nDirPath = "";
 		nDirPath = dir_entry.path().string();
 
 		std::ifstream jsonFileReader; // Create the stream
-        std::stringstream jsonString();
+        std::stringstream jsonString;
 
         
         jsonFileReader.open(nDirPath, std::ofstream::in); 
@@ -256,7 +258,7 @@ void UniversalClass::deserializeTasks() {
 }
 
 void UniversalClass::mainMenuState() {
-
+    
     deserializeTasks();
     
     while (stateStack.top() == 1) {
@@ -305,6 +307,7 @@ void UniversalClass::mainMenuState() {
             window.display();
         }
     }
+    
 }
 
 void UniversalClass::editTaskState(Task& editTask) {
@@ -655,10 +658,11 @@ void UniversalClass::currentTaskState() {
 
 		}
 	}
+    
 }
 
 void UniversalClass::viewTaskState(Task& viewTask) {
-
+    
     Button exitViewButton({ static_cast<float>(window.getView().getSize().x * 0.42317708), static_cast<float>(window.getView().getSize().y * 0.780092) }, { static_cast<float>(window.getView().getSize().x * 0.15364), static_cast<float>(window.getView().getSize().y * 0.0625) });
 	Textbox taskNameText(24, 23, { static_cast<float>(window.getView().getSize().x * 0.59244), static_cast<float>(window.getView().getSize().y * 0.09722) }, { static_cast<float>(window.getView().getSize().x * 0.315104), static_cast<float>(window.getView().getSize().y * 0.226851) }, sf::Color::White, fontManager.getRef("simplePixels"));
 	Textbox taskNotesText(24, 101, { static_cast<float>(window.getView().getSize().x * 0.578125), static_cast<float>(window.getView().getSize().y * 0.22453) }, { static_cast<float>(window.getView().getSize().x * 0.329425), static_cast<float>(window.getView().getSize().y * 0.34722222) }, sf::Color::White, fontManager.getRef("simplePixels"));
@@ -738,4 +742,5 @@ void UniversalClass::viewTaskState(Task& viewTask) {
             window.display();
         }
 	}
+    
 }
