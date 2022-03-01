@@ -8,6 +8,12 @@
 
 After downloading and unzipping the contents of the repository, naviagte to 'ReminderProgram.exe' via 'RemindMe-master' -> 'x64' -> 'Release'  
 
+## Notes
+
+- When creating a task the date must be MM/DD/YYYY format, and the time must be HH:MM format (Military Time).
+- The Completed Task screen does not have functionality yet.
+- The edit task button does not have functionality yet.
+
 ## Built Using
 
 * [SFML](https://www.sfml-dev.org/) - The Graphics Library used.
