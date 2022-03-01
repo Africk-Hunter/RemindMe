@@ -288,7 +288,7 @@ void UniversalClass::mainMenuState() {
                        
                     }
                     if (butManager.getRef("completedTaskButton").isHovered(window)) {
-                        stateStack.push(4);
+                      //  stateStack.push(4);
                     }
                     if (butManager.getRef("exitMainMenuButton").isHovered(window)) {
                         window.close();

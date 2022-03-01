@@ -1,0 +1,16 @@
+{
+    "editTask": {
+        "taskName": "Test Program",
+        "taskNotes": "Hello, I am a test task. \nI am here to show how     \nRemind Me! works.",
+        "stringDate": "03/01/2022",
+        "stringTime": "14:00",
+        "dateDay": 1,
+        "dateMonth": 3,
+        "dateYear": 2022,
+        "timeHours": 14,
+        "timeMinutes": 0,
+        "finalTime": 1646172000,
+        "reminder": false,
+        "priority": 2
+    }
+}

@@ -141,10 +141,7 @@ void Textbox::deleteChar() {
 		currentPos = boundsBox.getPosition().x + boundsBox.getSize().x - (4 * textbox.getCharacterSize());
 	}
 	else {
-		std::cout << "b4: " << currentPos << std::endl;
 		for (i; i < textString.length() - 1; i++) {
-			
-			
 			newString += textString[i];
 		}
 		currentPos -= textbox.getCharacterSize();
