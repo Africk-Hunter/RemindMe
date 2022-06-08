@@ -12,7 +12,7 @@ After downloading and unzipping the contents of the repository, naviagte to 'Rem
 
 - When creating a task the date must be MM/DD/YYYY format, and the time must be HH:MM format (Military Time).
 - The Completed Task screen does not have functionality yet.
-- The edit task button does not have functionality yet.
+- The Edit Task button does not have functionality yet.
 
 ## Built Using
 
